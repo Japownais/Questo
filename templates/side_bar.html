@@ -14,7 +14,9 @@
 <body>
     <nav class="sidebar">
         <div class="menu">
-            <h2 class="logo">Questo</h2>
+            <a href="{% url 'profile' %}" style="text-decoration:none;">
+                <h2 class="logo">Questo</h2>
+            </a>
             <i class="fa-solid fa-bars toggle-btn"></i>
         </div>
         <ul class="list">
@@ -22,6 +24,12 @@
                 <a href="#% url 'calendar' %#">
                     <i class="fa-solid fa-calendar-days"></i>
                     <span class="name">Calendario</span>
+                </a>
+            </li>
+            <li class="list-item">
+                <a href="{% url 'vestibulares' %}">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span class="name">Provas</span>
                 </a>
             </li>
             <li class="list-item">

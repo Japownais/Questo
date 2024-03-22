@@ -1,0 +1,25 @@
+{% extends "side_bar.html" %}
+
+{% block title%}
+tests
+{%endblock%}
+
+{%block content%}
+    <h1>Logado como {{request.user.username}}</h1>
+    <br>
+    <h1> TESTES FODAS</h1>
+    
+    <body>
+        <h1>Formulário de Cadastro de Vestibulares</h1>
+        <form action="{% url 'vestibulares' %}" method="POST">
+            {% csrf_token %}
+            Nivel <input name="nivel" class="form-control-sm" type="text">
+            Nome <input name="nome" class="form-control-sm" type="text">
+            Ano <input name="ano" class="form-control-sm" type="text">
+            Urlv <input name="urlv" class="form-control-sm" type="text">
+            Urlg <input name="urlg" class="form-control-sm" type="text">
+            <input type="submit" value="FODA">
+        </form>
+    </body>
+
+{%endblock%}
