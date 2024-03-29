@@ -228,12 +228,13 @@
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit">Salvar</button>
-                <h1>A data: {{data}}</h1>
+                <h1>A data: {{dia}}</h1>
             </form>
         </div>
     </div>
 </div>
 <script>
+    
        document.addEventListener("DOMContentLoaded", function () {
         const prevBtn = document.querySelector('.prev');
         const nextBtn = document.querySelector('.next');
@@ -283,11 +284,6 @@
                 const selectedYear = monthYear[1];
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
-                console.log(parseInt(selectedDay.textContent));
-                console.log(currentMonth);
-                console.log(currentYear);
-
-
 
                 $.ajax({
                     type: "POST",
@@ -299,19 +295,12 @@
                         'csrfmiddlewaretoken': '{{ csrf_token }}'  // Adicione o token CSRF para proteger contra CSRF attacks
                     },
                     success: function (response) {
-                        console.log("Dado enviado com sucesso para Django!");
-                        // Faça algo com a resposta, se necessário
+                        console.log("Data selecionada:", response.data, " Dia, mês e ano:", response.dia, response.mes, response.ano);
                     },
                     error: function (error) {
                         console.error("Erro ao enviar dado para Django:", error);
                     }
                 });
-
-
-
-
-
-
             }
         });
 

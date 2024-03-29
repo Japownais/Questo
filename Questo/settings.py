@@ -147,5 +147,8 @@ EMAIL_HOST= 'smtp.gmail.com'
 
 ACCOUNT_EMAIL_REQUIRED=True
 
+
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
 ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 

@@ -17,7 +17,30 @@ def profile(request):
 
 @login_required
 def calendar(request):
-   
+
+
+    if request.method == 'POST':
+        print("Com post")
+        return data_calendar(request)
+    else:
+        print("Sem post")
+        return render(request, 'calendar.html')
+
+def data_calendar(request):
+    if request.method == 'POST':
+        dia_selecionado = int(request.POST.get('diaSelecionado'))
+        mes_selecionado = int(request.POST.get('mesSelecionado')) + 1
+        ano_selecionado = int(request.POST.get('anoSelecionado'))
+        data = date(ano_selecionado, mes_selecionado, dia_selecionado)
+        
+        return JsonResponse({'data': data, 'dia': dia_selecionado, 'mes': mes_selecionado, 'ano': ano_selecionado})
+  
+    
+def form_calendar(request):
+    if request.method == 'POST':
+        print("Botão apertado")
+        return render(request, 'calendar.html')
+    print("Botão não apertado ???")
     return render(request, 'calendar.html')
 
 
