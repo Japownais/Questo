@@ -134,7 +134,7 @@
     }
 
     .container .right {
-        background-color: #FFE45E;
+       display:flex;
         position: relative;
         width: 40%;
         min-height: 70%;
@@ -144,8 +144,6 @@
         position: absolute;
         width: 100%;
         height: 100px;
-        display: flex;
-        flex-direction: column;
         flex-wrap: wrap;
         text-transform: capitalize;
         align-items: center;
@@ -226,10 +224,17 @@
         <div class="today-date">
             <div class="event-day"></div>
             <div class="event-date"></div>
+            <form method="post" action="{% url 'calendar' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Salvar</button>
+                <h1>A data: {{dia}}</h1>
+            </form>
         </div>
     </div>
 </div>
 <script>
+    
        document.addEventListener("DOMContentLoaded", function () {
         const prevBtn = document.querySelector('.prev');
         const nextBtn = document.querySelector('.next');
@@ -279,6 +284,23 @@
                 const selectedYear = monthYear[1];
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
+
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'calendar' %}",  // Substitua 'url_do_seu_view' pela URL correta do seu view em Django
+                    data: {
+                        'diaSelecionado': parseInt(selectedDay.textContent),
+                        'mesSelecionado': currentMonth,
+                        'anoSelecionado': currentYear,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'  // Adicione o token CSRF para proteger contra CSRF attacks
+                    },
+                    success: function (response) {
+                        console.log("Data selecionada:", response.data, " Dia, mês e ano:", response.dia, response.mes, response.ano);
+                    },
+                    error: function (error) {
+                        console.error("Erro ao enviar dado para Django:", error);
+                    }
+                });
             }
         });
 
@@ -352,6 +374,8 @@
 
     });
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
 {% endblock %}
