@@ -224,12 +224,14 @@
         <div class="today-date">
             <div class="event-day"></div>
             <div class="event-date"></div>
-            <form method="post" action="{% url 'calendar' %}" enctype="multipart/form-data">
+
+            <form method="post" action=".">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">Salvar</button>
-                <h1>A data: {{dia}}</h1>
+                {{ form }}
+                <input type="hidden" name="data" id="dataSelecionada">
+                <input type="submit" value="Salvar">
             </form>
+            
         </div>
     </div>
 </div>
@@ -284,25 +286,20 @@
                 const selectedYear = monthYear[1];
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
+                
+                function updateTodayDate(selectedDate, selectedMonth, selectedYear) {
 
-                $.ajax({
-                    type: "POST",
-                    url: "{% url 'calendar' %}",  // Substitua 'url_do_seu_view' pela URL correta do seu view em Django
-                    data: {
-                        'diaSelecionado': parseInt(selectedDay.textContent),
-                        'mesSelecionado': currentMonth,
-                        'anoSelecionado': currentYear,
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'  // Adicione o token CSRF para proteger contra CSRF attacks
-                    },
-                    success: function (response) {
-                        console.log("Data selecionada:", response.data, " Dia, mês e ano:", response.dia, response.mes, response.ano);
-                    },
-                    error: function (error) {
-                        console.error("Erro ao enviar dado para Django:", error);
-                    }
-                });
+
+                    const monthNumber = monthNames.indexOf(selectedMonth) + 1;
+
+                    const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
+                    document.getElementById('dataSelecionada').value = formattedDate;
+
+                }
             }
         });
+
+
 
         function updateTodayDate(selectedDate, selectedMonth, selectedYear) {
             // Mapeando o nome do mês para o índice do mês no array monthNames

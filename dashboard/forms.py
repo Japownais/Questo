@@ -29,3 +29,6 @@ class EventoForm(forms.ModelForm):
             'descricao': 'Descrição do Evento',
             'hora': 'Hora do Evento',
         }
+
+
+        
