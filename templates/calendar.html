@@ -287,14 +287,10 @@
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
                 
-                function updateTodayDate(selectedDate, selectedMonth, selectedYear) {
-
-
+                function updateSelectedDate(selectedDate, selectedMonth, selectedYear) {
                     const monthNumber = monthNames.indexOf(selectedMonth) + 1;
-
                     const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
                     document.getElementById('dataSelecionada').value = formattedDate;
-
                 }
             }
         });
