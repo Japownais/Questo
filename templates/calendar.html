@@ -287,17 +287,17 @@
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
                 
-                function updateSelectedDate(selectedDate, selectedMonth, selectedYear) {
-                    const monthNumber = monthNames.indexOf(selectedMonth) + 1;
-                    const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
-                    document.getElementById('dataSelecionada').value = formattedDate;
-                }
+
             }
         });
 
 
 
         function updateTodayDate(selectedDate, selectedMonth, selectedYear) {
+            const monthNumber = monthNames.indexOf(selectedMonth) + 1;
+            const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
+            document.getElementById('dataSelecionada').value = formattedDate;
+
             // Mapeando o nome do mês para o índice do mês no array monthNames
             const monthIndex = monthNames.indexOf(selectedMonth);
 
