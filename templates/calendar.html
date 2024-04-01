@@ -226,11 +226,12 @@
         <div class="today-date">
             <div class="event-day"></div>
             <div class="event-date"></div>
+            <h1>{{ dados }}</h1>
         </div>
     </div>
 </div>
 <script>
-       document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
         const prevBtn = document.querySelector('.prev');
         const nextBtn = document.querySelector('.next');
         const dateElement = document.querySelector('.date');
@@ -279,6 +280,9 @@
                 const selectedYear = monthYear[1];
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
+
+                
+                
             }
         });
 
@@ -298,6 +302,24 @@
 
             eventDayElement.textContent = `${currentDayOfWeek}`;
             eventDateElement.textContent = `${selectedDate} de ${selectedMonth} de ${selectedYear}`;
+
+            
+            $.ajax({
+                    type: "POST",
+                    url: "{% url 'calendar' %}",  // Substitua 'url_do_seu_view' pela URL correta do seu view em Django
+                    data: {
+                        'diaSelecionado': selectedDate,
+                        'mesSelecionado': currentMonth,
+                        'anoSelecionado': currentYear,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'  // Adicione o token CSRF para proteger contra CSRF attacks
+                    },
+                    success: function (response) {
+                        console.log("Data selecionada:", " Dia, mês e ano:", selectedDate, currentMonth, currentYear);
+                    },
+                    error: function (error) {
+                        console.error("Erro ao enviar dado para Django:", error);
+                    }
+                });
         }
 
         function renderCalendar(month, year) {
@@ -333,12 +355,28 @@
             const eventDayElement = document.querySelector('.event-day');
             const eventDateElement = document.querySelector('.event-date');
 
-            const currentDate = new Date(currentYear,currentMonth,today);
+            const currentDate = new Date(currentYear, currentMonth, today);
             const currentDayOfWeekIndex = currentDate.getDay();
             const currentDayOfWeek = daysOfWeek[currentDayOfWeekIndex];
 
             eventDayElement.textContent = `${currentDayOfWeek}`;
             eventDateElement.textContent = `${today} de ${monthNames[currentMonth]} de ${currentYear}`;
+            $.ajax({
+                    type: "POST",
+                    url: "{% url 'calendar' %}",  // Substitua 'url_do_seu_view' pela URL correta do seu view em Django
+                    data: {
+                        'diaSelecionado': today,
+                        'mesSelecionado': monthNames[currentMonth],
+                        'anoSelecionado': currentYear,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'  // Adicione o token CSRF para proteger contra CSRF attacks
+                    },
+                    success: function (response) {
+                        console.log("Data selecionada:", " Dia, mês e ano:", today, monthNames[currentMonth], currentYear);
+                    },
+                    error: function (error) {
+                        console.error("Erro ao enviar dado para Django:", error);
+                    }
+                });
 
             // Adicionar dias do próximo mês
             const remainingDays = 42 - (firstDay + lastDay); // Total de dias - (dias do mês atual + dias do mês anterior)
@@ -352,6 +390,5 @@
 
     });
 </script>
-
 
 {% endblock %}

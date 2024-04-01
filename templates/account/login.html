@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 <div class="main-login">
     <div class="left-login">
-        <h1>Faça seu login <br> se junte a nossa equipe</h1>
+        <h1>Desperte sua produtividade e <br>  mantenha-se organizado</h1>
         <img src="{% static 'img/login_background.svg'%}" class="left-login-image" alt="background">
     </div>
     <div class="right-login">
@@ -19,7 +19,7 @@
             <form method="post" action="{{ login_url }}" class="login-form">
                 {% csrf_token %}
                 {% for field in form %}
-                {% if field.name != 'remember' %} {# Exclui os campos de redefinição de senha e "Manter-me logado" #}
+                {% if field.name != 'remember' %} 
                 <div class="form-group">
                     <div class="textfield">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>

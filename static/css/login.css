@@ -10,7 +10,7 @@
 .main-login {
     width: 100vw;
     height: 100vh;
-    background: #7FC8F8;
+    background: #ac6cff;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -27,7 +27,7 @@
 }
 
 .left-login>h1 {
-    color: #FF6392;
+    color: #fbebd7;
     font-size: 3vw;
 }
 
@@ -46,13 +46,13 @@
     align-items: center;
     flex-direction: column;
     padding: 30px 35px;
-    background: #286c99;
+    background: #2f1c48;
     border-radius: 20px;
 
 }
 
 .card-login>h1 {
-    color: #FF6392;
+    color: #fbebd7;
     font-weight: 800;
     margin: 0;
 }
@@ -71,7 +71,7 @@ input {
     border: none;
     border-radius: 10px;
     padding: 15px;
-    background: #FFE45E;
+    background: #f8d57e;
     color: #00000056;
     font-size: 12pt;
     box-shadow: 0px 10px 40px #00000056;
@@ -80,7 +80,7 @@ input {
 }
 
 label {
-    color: #f0ffffde;
+    color: #fff;
     margin-bottom: 10px;
 }
 
@@ -96,7 +96,7 @@ button {
     font-weight: 800;
     letter-spacing: 3px;
     color: #000A12;
-    background: #FF6392;
+    background: #ac6cff;
     cursor: pointer;
     box-shadow: 0px 10px 40px -12px #00ff8052;
 }
@@ -108,7 +108,7 @@ button {
 
 a {
     font-weight: 500;
-    color: #f0ffffde;
+    color: #fff;
 }
 
 .left-login-image {
@@ -118,5 +118,5 @@ a {
 a:hover {
     font-weight: 500;
     text-decoration: underline;
-    color: #FF6392;
+    color: #ac6cff;
 }
