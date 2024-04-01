@@ -16,30 +16,33 @@
 <body>
     <div class="navbar">
         <div class="logo">QUESTO</div>
-        <a href="#" class="homepage">Homepage</a>
-        <a href="#">Sobre Nós</a>
-        <a href="#">Funcionalidades</a>
-        <a href="#">Plataforma</a>
-        <a href="#">Desenvolvedores</a>
+        <a href="#">Homepage</a>
+        <a href="#nos">Sobre Nós</a>
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#desenvolvedores">Desenvolvedores</a>
+        <a href="#plataforma">Plataforma</a>
         <div class="navbar-right">
-            <a href="#" class="button">Comece Agora</a>
+            <a href="{%url 'account_signup'%}" class="button">Comece Agora</a>
         </div>
     </div>
-    <div class="container">
+    
+    <div class="container" style="padding-top: 6%">
         <div class="text-content">
             <h1>Seu vestibular, nossa missão. Questão, sempre ao seu lado!</h1>
             <p>Com Questo, você está preparado para enfrentar qualquer desafio do vestibular e conquistar o sucesso.
                 Estamos
                 aqui para guiá-lo em cada etapa do caminho.</p>
-            <button class="btn-cadastrar">Cadastre-se</button>
-            <button class="btn-login">Login</button>
+
+            <br>
+            <a href = "{% url 'account_signup'%}"class="btn-cadastrar">Cadastre-se</a>
+            <a href= "{% url 'account_login'%}" class="btn-login">Login</a>
         </div>
         <div class="image-content">
-            <img src="" alt="Homi segurando um laptop">
+            <img src="{%static 'img/home.svg'%}" alt="mulher estudando">
         </div>
     </div>
     <section class="container-02">
-        <div class="div-texto-primeiro">
+        <div class="div-texto-primeiro" id= "nos">
             <h2>Sobre Nós</h2>
         </div>
         <div class="div-texto-segundo">
@@ -61,7 +64,7 @@
         </div>
     </section>
     <section class="container-02">
-        <div class="div-texto-principal">
+        <div class="div-texto-principal" id ="funcionalidades">
             <h2>Funcionalidades</h2>
         </div>
         <div class="div-subtexto">
@@ -86,7 +89,7 @@
             </div>
         </div>
     </section>
-    <div class="texto-centralizado">
+    <div class="texto-centralizado" id="desenvolvedores">
         <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
     </div>
     <div class="container-centralizado">
@@ -104,7 +107,7 @@
         </div>
     </div>
     <div class="container-final">
-        <div class="texto-centralizado">
+        <div class="texto-centralizado" id = "plataforma">
             <h2>O que faz o <u>Questo</u> ser<br>sua melhor escolha?</h2>
         </div>
         <div class="container-duas-colunas">
