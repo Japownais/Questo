@@ -19,13 +19,19 @@
         </div>
         <ul class="list">
             <li class="list-item">
-                <a href="{% url 'calendar' %}">
+                <a href="{%url 'profile'%}">    
+                    <i class="fa-solid fa-user"></i>
+                    <span class="name">Perfil</span>
+                </a>
+            </li>
+            <li class="list-item">
+                <a href="{%url 'calendar'%}">
                     <i class="fa-solid fa-calendar-days"></i>
                     <span class="name">Calendario</span>
                 </a>
             </li>
             <li class="list-item">
-                <a href="#">
+                <a href="{%url 'flashcards'%}">
                     <i class="fa-regular fa-clone"></i>
                     <span class="name">Flashcards</span>
                 </a>

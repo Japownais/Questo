@@ -1,0 +1,85 @@
+{% extends "side_bar.html" %}
+
+{% block title%}
+Flashcards
+{%endblock%}
+{%block head%}
+<style>
+    .container {
+        background-color: pink;
+        border: 3px solid black;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .main {
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+    }
+
+    hr {
+        border-top: 3px solid black;
+        margin: 5px;
+    }
+
+    .deck {
+        display: flex;
+        justify-content: space-between;
+        width: 600px;
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 5px;
+        margin: 10px;
+        padding: 5px;
+    }
+
+    button {
+        width: 80px;
+        border: 2px solid black;
+        border-radius: 5px;
+        font-size: 20px;
+    }
+    .add{
+        background-color: greenyellow;
+    }
+    .edit{
+        background-color: rgb(103, 103, 233);
+    }
+    .delet{
+        background-color: red;
+    }
+    .header{
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+{%endblock%}
+{%block content%}
+<div class="container">
+    <h1>Baralhos</h1>
+    <hr>
+    <div class="header">
+        <h1>Meus Decks</h1>
+        <button class="add">Criar</button>
+    </div>
+    {% for deck in decks %}
+    <div class="deck">
+        <h2>{{ deck.nome }}</h2>
+        <div>
+        <button class="edit">Editar</button>
+        <button class="delet">Apagar</button>
+    </div>
+    </div>
+    {% endfor %}
+
+    <!-- Template para inserir um novo Deck
+    <form method="post">
+        {% csrf_token %}
+        {{ deck_form.as_p }}
+        <button type="submit">Salvar Deck</button>
+    </form>
+     -->
+</div>
+{%endblock%}
