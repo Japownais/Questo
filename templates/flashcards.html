@@ -6,8 +6,7 @@ Flashcards
 {%block head%}
 <style>
     .container {
-        background-color: pink;
-        border: 3px solid black;
+        background-color: #ac6cff;
         padding: 20px;
         border-radius: 5px;
     }
@@ -18,68 +17,207 @@ Flashcards
         justify-content: center;
         align-items: center;
     }
-
-    hr {
-        border-top: 3px solid black;
-        margin: 5px;
+    h1{
+        font-size: 27px;
+        font-weight: 500;
     }
-
     .deck {
         display: flex;
         justify-content: space-between;
         width: 600px;
         background-color: white;
-        border: 3px solid black;
         border-radius: 5px;
-        margin: 10px;
+        margin: 14px;
         padding: 5px;
     }
 
-    button {
+    .btn {
         width: 80px;
-        border: 2px solid black;
+        border: none;
         border-radius: 5px;
         font-size: 20px;
     }
-    .add{
-        background-color: greenyellow;
+
+    .add {
+        background-color: rgb(43, 255, 0);
+        cursor: pointer;
     }
-    .edit{
+
+    .edit {
         background-color: rgb(103, 103, 233);
     }
-    .delet{
+
+    .delet {
         background-color: red;
     }
-    .header{
+
+    .new {
+        width: 200px;
+        background-color: #f8d57e;
+        border:none;
+        font-weight: 600;
+    }
+
+    .header {
         display: flex;
         justify-content: space-between;
+    }
+
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        transition: opacity 0.3s ease-in-out;
+        transform: scale(0.9);
+        /* Escala inicial para simular um "pop" */
+        /* Add transition for smooth fade */
+    }
+
+    .modal-content {
+        background-color: #ac6cff;
+        margin: 7% auto;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        animation: modal-in 0.3s ease-in-out;
+        /* Add animation for modal entrance */
+    }
+
+    /* Modal animation */
+    @keyframes modal-in {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+
+    /* Close button styles */
+    .fechar {
+        color: black;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .fechar:hover,
+    .fechar:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+
+    .deck-form {
+        margin: 1rem;
+        /* Add some margin for spacing */
+    }
+
+    .deck-form label {
+        display: block;
+        /* Make labels display on their own line */
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        /* Add some space below labels */
+    }
+
+    .error {
+        color: red;
+        /* Display errors in red */
+        font-size: 0.8rem;
+        /* Make error messages slightly smaller */
+        margin-top: 0.25rem;
+        /* Add some space above error messages */
+    }
+
+    .deck-form input[type="text"],
+    .deck-form textarea {
+        /* Style input fields and textareas */
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 100%;
+        /* Make fields full width */
     }
 </style>
 {%endblock%}
 {%block content%}
 <div class="container">
-    <h1>Baralhos</h1>
-    <hr>
     <div class="header">
-        <h1>Meus Decks</h1>
-        <button class="add">Criar</button>
+        <h1>Meus Baralhos</h1>
+        <button class="add btn" id="abrirModalBtn">Criar</button>
     </div>
     {% for deck in decks %}
     <div class="deck">
         <h2>{{ deck.nome }}</h2>
         <div>
-        <button class="edit">Editar</button>
-        <button class="delet">Apagar</button>
-    </div>
+            <button class="edit btn">Editar</button>
+            <button class="delet btn">Apagar</button>
+        </div>
     </div>
     {% endfor %}
 
-    <!-- Template para inserir um novo Deck
-    <form method="post">
-        {% csrf_token %}
-        {{ deck_form.as_p }}
-        <button type="submit">Salvar Deck</button>
-    </form>
-     -->
+
 </div>
+<div id="meuModal" class="modal">
+    <div class="modal-content">
+        <span class="fechar">&times;</span>
+        <h1>Criar Baralho</h1>
+        <form method="post" class="deck-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nome" class="form-label">Nome do Deck</label>
+                {{ deck_form.nome }}
+                <div class="error"> {{ deck_form.nome.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="descricao" class="form-label">Descrição do Deck</label>
+                {{ deck_form.descricao }}
+                <div class="error"> {{ deck_form.descricao.errors }}
+                </div>
+            </div>
+            <button class="btn new" type="submit">Salvar Baralho</button>
+        </form>
+    </div>
+</div>
+<script>
+    // Obtenha o botão de abrir modal e o modal em si
+    var abrirModalBtn = document.getElementById("abrirModalBtn");
+    var meuModal = document.getElementById("meuModal");
+
+    // Obtenha o elemento de fechar dentro do modal
+    var fecharBtn = document.getElementsByClassName("fechar")[0];
+
+    // Quando o usuário clicar no botão, abra o modal
+    abrirModalBtn.onclick = function () {
+        meuModal.style.display = "block";
+    }
+
+    // Quando o usuário clicar no botão de fechar, feche o modal
+    fecharBtn.onclick = function () {
+        meuModal.style.display = "none";
+    }
+
+    // Quando o usuário clicar fora do modal, feche-o
+    window.onclick = function (event) {
+        if (event.target == meuModal) {
+            meuModal.style.display = "none";
+        }
+    }
+
+</script>
 {%endblock%}

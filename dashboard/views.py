@@ -49,16 +49,17 @@ def home(request):
 
 def flashcards(request):
 
-    decks = Deck.objects.filter(usuario=request.user)
-
-
-
+    decks = Deck.objects.filter(usuario=request.user)  # Recupere os decks do usuário atual
+    
     if request.method == 'POST':
         deck_form = DeckForm(request.POST)  # Inicialize o formulário com os dados submetidos
         if deck_form.is_valid():  # Verifique se o formulário é válido
-            Evento.usuario = request.user
-            deck_form.save()  # Salve os dados do formulário no banco de dados
+            deck = deck_form.save(commit=False)  # Salve os dados do formulário sem commit no banco de dados
+            deck.usuario = request.user  # Atribua o usuário atual ao deck
+            deck.save()  # Salve o deck no banco de dados
             return HttpResponse("Deck salvo com sucesso!") 
     else:
         deck_form = DeckForm()  # Caso contrário, crie um formulário em branco para ser exibido
-    return render(request, 'flashcards.html', {'decks': decks})  # Renderize o template com o formulário
+    
+    # Renderize o template com o formulário e os decks do usuário atual
+    return render(request, 'flashcards.html', {'decks': decks, 'deck_form': deck_form})
