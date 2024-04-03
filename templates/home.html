@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
     <title>QUESTO</title>
 </head>
@@ -89,23 +90,106 @@
             </div>
         </div>
     </section>
-    <div class="texto-centralizado" id="desenvolvedores">
-        <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
+
+ 
+    <div class="carousel">
+        <div class="slide">
+            <div class="texto-centralizado" id="desenvolvedores">
+                <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
+            </div>
+            <div class="container-centralizado">
+                <div class="imagem">
+                    <img src="{%static 'img/bozo.webp'%}" alt="mulher estudando">
+                </div>
+                <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
+                <div class="texto-principal">
+                    "O que achamos do projeto Questo? Foi desafiador, mas o resultado final está incrível. Mal podemos esperar
+                    para
+                    ver a reação do público!"
+                </div>
+                
+            </div>
+        </div>
+        <div class="slide">
+            <div class="texto-centralizado" id="desenvolvedores">
+                <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
+            </div>
+            <div class="container-centralizado">
+                <div class="imagem">
+                    <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                </div>
+                <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
+                <div class="texto-principal">
+                    "pirilim pirilim"
+                </div>
+                
+            </div>
+        </div>
+        <div class="slide">
+            <div class="texto-centralizado" id="desenvolvedores">
+                <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
+            </div>
+            <div class="container-centralizado">
+                <div class="imagem">
+                     <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                </div>
+                <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
+                <div class="texto-principal">
+                    "alacazam alacazam"
+                </div>
+                
+            </div>
+        </div>
+        <div class="slide">
+            <div class="texto-centralizado" id="desenvolvedores">
+                <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
+            </div>
+            <div class="container-centralizado">
+                <div class="imagem">
+                     <img src="{%static 'img/lucas.jpeg'%}" alt="mulher estudando">
+                </div>
+                <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
+                <div class="texto-principal">
+                    "tesão"
+                </div>
+                
+            </div>
+        </div>
+        <div class="slide">
+            <div class="texto-centralizado" id="desenvolvedores">
+                <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
+            </div>
+            <div class="container-centralizado">
+                <div class="imagem">
+                     <img src="{%static 'img/chico.jpeg'%}" alt="mulher estudando">
+                </div>
+                <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
+                <div class="texto-principal">
+                    "vou dar o cu"
+                </div>
+                
+            </div>
+        </div>
+        <div class="slide">
+            <div class="texto-centralizado" id="desenvolvedores">
+                <h2>Curioso sobre o que nossa equipe pensa do projeto da Questo?<br>Venha dar uma espiadinha!</h2>
+            </div>
+            <div class="container-centralizado">
+                <div class="imagem">
+                     <img src="{%static 'img/japa.jpeg'%}" alt="mulher estudando">
+                </div>
+                <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
+                <div class="texto-principal">
+                    "vou dar o cu"
+                </div>
+                
+            </div>
+        </div>
+            <button class="prev" onclick="prevSlide()"><img src="{%static 'img/angulo-esquerdo.png'%}" alt="mulher estudando"></button>
+            <button class="next" onclick="nextSlide()"><img src="{%static 'img/angulo-direito.png'%}" alt="mulher estudando"></button>
     </div>
-    <div class="container-centralizado">
-        <div class="imagem">
-            <img src="" alt="Ben10 bolsonaro">
-        </div>
-        <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
-        <div class="texto-principal">
-            "O que achamos do projeto Questo? Foi desafiador, mas o resultado final está incrível. Mal podemos esperar
-            para
-            ver a reação do público!"
-        </div>
-        <div class="palavra">
-            < />
-        </div>
-    </div>
+    
+
     <div class="container-final">
         <div class="texto-centralizado" id = "plataforma">
             <h2>O que faz o <u>Questo</u> ser<br>sua melhor escolha?</h2>
@@ -150,5 +234,34 @@
         </div>
     </footer>
 </body>
+
+
+<script>
+    const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        if (i === index) {
+            slide.style.display = 'block';
+        } else {
+            slide.style.display = 'none';
+        }
+    });
+}
+
+function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+}
+
+function prevSlide() {
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    showSlide(currentSlide);
+}
+
+showSlide(currentSlide); // Mostrar o primeiro slide inicialmente
+
+</script>
 
 </html>
