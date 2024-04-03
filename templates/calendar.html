@@ -100,15 +100,10 @@
 
     .calendar .days .today {
         background-color: #FFE45E;
-        position: relative;
     }
 
     .calendar .days .active {
         background-color: #FF6392;
-        position: relative;
-    }
-
-    .calendar .days .event {
         position: relative;
     }
 
@@ -122,6 +117,10 @@
         box-shadow: 0 0 0 10px 2px #FF6392;
     }
 
+    .calendar .days .event {
+        position: relative;
+    }
+
     .calendar .day.event::after {
         content: '';
         position: absolute;
@@ -132,14 +131,14 @@
         /* largura da barra */
         height: 6px;
         /* altura da barra */
-        background-color: #FF0000;
+        background-color: #FFE45E;
         /* cor da barra */
         border-radius: 30px;
         /* borda arredondada */
     }
 
     .container .right {
-        display: flex;
+       display:flex;
         position: relative;
         width: 40%;
         min-height: 70%;
@@ -236,7 +235,7 @@
                 <input type="hidden" name="data" id="dataSelecionada">
                 <input type="submit" value="Salvar">
             </form>
-
+            
         </div>
     </div>
 </div>
@@ -291,11 +290,14 @@
                 const selectedYear = monthYear[1];
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
-                getSelectedDate(selectedDay.textContent, selectedMonth, selectedYear);
             }
         });
 
         function updateTodayDate(selectedDate, selectedMonth, selectedYear) {
+            const monthNumber = monthNames.indexOf(selectedMonth) + 1;
+            const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
+            document.getElementById('dataSelecionada').value = formattedDate;
+
             // Mapeando o nome do mês para o índice do mês no array monthNames
             const monthIndex = monthNames.indexOf(selectedMonth);
 
@@ -311,12 +313,6 @@
 
             eventDayElement.textContent = `${currentDayOfWeek}`;
             eventDateElement.textContent = `${selectedDate} de ${selectedMonth} de ${selectedYear}`;
-        }
-
-        function getSelectedDate(selectedDate, selectedMonth, selectedYear) {
-            const monthNumber = monthNames.indexOf(selectedMonth) + 1;
-            const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
-            document.getElementById('dataSelecionada').value = formattedDate;
         }
 
         function renderCalendar(month, year) {
@@ -347,11 +343,17 @@
                 if (i === today && month === currentMonth && year === currentYear) {
                     day.classList.add('today');
                 }
-                if (hasEvent(year, month, i)) {
-                    day.classList.add('event');
-                }
                 daysContainer.appendChild(day);
             }
+            const eventDayElement = document.querySelector('.event-day');
+            const eventDateElement = document.querySelector('.event-date');
+
+            const currentDate = new Date(currentYear,currentMonth,today);
+            const currentDayOfWeekIndex = currentDate.getDay();
+            const currentDayOfWeek = daysOfWeek[currentDayOfWeekIndex];
+
+            eventDayElement.textContent = `${currentDayOfWeek}`;
+            eventDateElement.textContent = `${today} de ${monthNames[currentMonth]} de ${currentYear}`;
 
             // Adicionar dias do próximo mês
             const remainingDays = 42 - (firstDay + lastDay); // Total de dias - (dias do mês atual + dias do mês anterior)
@@ -361,34 +363,10 @@
                 day.textContent = i;
                 daysContainer.appendChild(day);
             }
-
-            const eventDayElement = document.querySelector('.event-day');
-            const eventDateElement = document.querySelector('.event-date');
-
-            const currentDate = new Date(currentYear, currentMonth, today);
-            const currentDayOfWeekIndex = currentDate.getDay();
-            const currentDayOfWeek = daysOfWeek[currentDayOfWeekIndex];
-
-            eventDayElement.textContent = `${currentDayOfWeek}`;
-            eventDateElement.textContent = `${today} de ${monthNames[currentMonth]} de ${currentYear}`;
-        }
-
-        function hasEvent(year, month, day) {
-            var minhaLista = [];
-
-            {% for day in lista_data_evento %}
-                minhaLista.push("{{ day }}");
-            {% endfor %}
-            const eventList = minhaLista; // Atribua os valores da sua lista Django para eventList
-            const dateString = `${year}-${month + 1}-${day < 10 ? '0' + day : day}`;
-            // Verificar se a data está na lista de eventos ou se está dentro do mês correspondente
-            return eventList.includes(dateString) || eventList.some(eventDate => {
-                const [eventYear, eventMonth, eventDay] = eventDate.split('-').map(Number);
-                return eventYear === year && eventMonth - 1 === month && eventDay === day;
-            });
         }
     });
-
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 {% endblock %}

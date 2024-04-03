@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 import json
 from .models import Deck
-from django.utils.html import format_html
+
+
 
 # Create your views here.
 @login_required
@@ -29,19 +30,19 @@ def calendar(request):
     else:
         form = EventoForm()
 
-    eventos = Evento.objects.filter(usuario=request.user)  # Busca todos os eventos do banco de dados filtrando o usuario
+    eventos = Evento.objects.filter(usuario=1)  # Busca todos os eventos do banco de dados filtrando o usuario
     datas_eventos = [evento.data for evento in eventos]  # Lista de datas dos eventos
 
-    lista_data_evento = []
-    for data in datas_eventos:
-        # Adiciona a tag 'event' a cada data na lista   
-        data_formatada = format_html('{}', data)
-        # Renderiza ou imprime a HTML   
-        lista_data_evento.append(data_formatada)
-    print(lista_data_evento)
+    print(" ")
+    print(datas_eventos)
 
-    context = {'form': form, 'datas_eventos': datas_eventos, 'lista_data_evento': lista_data_evento}
+    context = {'form': form, 'datas_eventos': datas_eventos}
     return render(request, 'calendar.html', context=context)
+
+
+
+
+
 
 def home(request):
     return render(request,'home.html')
