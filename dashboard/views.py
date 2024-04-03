@@ -30,7 +30,7 @@ def calendar(request):
     else:
         form = EventoForm()
 
-    eventos = Evento.objects.filter(usuario=request.user)  # Busca todos os eventos do banco de dados filtrando o usuario
+    eventos = Evento.objects.filter(usuario=1)  # Busca todos os eventos do banco de dados filtrando o usuario
     datas_eventos = [evento.data for evento in eventos]  # Lista de datas dos eventos
 
     print(" ")
