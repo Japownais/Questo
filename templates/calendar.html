@@ -9,6 +9,17 @@
         display: none;
     }
 
+    textarea {
+        resize: none;
+    }
+
+    .main {
+        display: flex;
+        height: 95vh;
+        justify-content: center;
+        align-items: center;
+    }
+
     .container {
         width: 800px;
         min-height: 400px;
@@ -100,10 +111,15 @@
 
     .calendar .days .today {
         background-color: #FFE45E;
+        position: relative;
     }
 
     .calendar .days .active {
         background-color: #FF6392;
+        position: relative;
+    }
+
+    .calendar .days .event {
         position: relative;
     }
 
@@ -117,10 +133,6 @@
         box-shadow: 0 0 0 10px 2px #FF6392;
     }
 
-    .calendar .days .event {
-        position: relative;
-    }
-
     .calendar .day.event::after {
         content: '';
         position: absolute;
@@ -131,14 +143,14 @@
         /* largura da barra */
         height: 6px;
         /* altura da barra */
-        background-color: #FFE45E;
+        background-color: #FF0000;
         /* cor da barra */
         border-radius: 30px;
         /* borda arredondada */
     }
 
     .container .right {
-       display:flex;
+        display:flex;
         position: relative;
         width: 40%;
         min-height: 70%;
@@ -168,6 +180,59 @@
         font-size: 1.2rem;
         font-weight: 400;
         color: #7FC8F8;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        transition: opacity 0.3s ease-in-out;
+        transform: scale(0.9);
+        /* Escala inicial para simular um "pop" */
+        /* Add transition for smooth fade */
+    }
+
+    .modal-content {
+        background-color: #ac6cff;
+        margin: 7% auto;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 21%;
+        animation: modal-in 0.3s ease-in-out;
+        /* Add animation for modal entrance */
+    }
+
+    @keyframes modal-in {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Close button styles */
+    .fechar {
+        color: black;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .fechar:hover,
+    .fechar:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
     }
 </style>
 {% endblock %}
@@ -229,17 +294,48 @@
             <div class="event-day"></div>
             <div class="event-date"></div>
 
-            <form method="post" action=".">
-                {% csrf_token %}
-                {{ form }}
-                <input type="hidden" name="data" id="dataSelecionada">
-                <input type="submit" value="Salvar">
-            </form>
-            
+            <button class="add btn" id="abrirModalBtn">ADD</button>
+
+            <div id="meuModal" class="modal">
+                <div class="modal-content">
+                    <span class="fechar" style="margin-top:-10px">&times;</span>
+                    <h2>
+                    <form method="post" action=".">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="" name="data" id="dataSelecionada">
+                        <input type="submit" value="Salvar">
+                    </form>
+                    </h2>
+                </div>
+            </div>
+            <div id="eventosDaDataSelecionada" style="height:437px; margin-top:5px; margin-right:10px; overflow:auto; overflow-x:hidden;";>
+                {% for evento in eventos %}
+                <div class="evento"></div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
 <script>
+    var abrirModalBtn = document.getElementById("abrirModalBtn");
+    var meuModal = document.getElementById("meuModal");
+    var fecharBtn = document.getElementsByClassName("fechar")[0];
+
+    abrirModalBtn.onclick = function () {
+        meuModal.style.display = "block";
+    }
+
+    fecharBtn.onclick = function () {
+        meuModal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        if (event.target == meuModal) {
+            meuModal.style.display = "none";
+        }
+    }
+
     document.addEventListener("DOMContentLoaded", function () {
 
         const prevBtn = document.querySelector('.prev');
@@ -290,14 +386,11 @@
                 const selectedYear = monthYear[1];
 
                 updateTodayDate(selectedDay.textContent, selectedMonth, selectedYear);
+                getSelectedDate(selectedDay.textContent, selectedMonth, selectedYear);
             }
         });
 
         function updateTodayDate(selectedDate, selectedMonth, selectedYear) {
-            const monthNumber = monthNames.indexOf(selectedMonth) + 1;
-            const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
-            document.getElementById('dataSelecionada').value = formattedDate;
-
             // Mapeando o nome do mês para o índice do mês no array monthNames
             const monthIndex = monthNames.indexOf(selectedMonth);
 
@@ -313,6 +406,46 @@
 
             eventDayElement.textContent = `${currentDayOfWeek}`;
             eventDateElement.textContent = `${selectedDate} de ${selectedMonth} de ${selectedYear}`;
+        }
+
+        function getSelectedDate(selectedDate, selectedMonth, selectedYear) {
+            const monthNumber = monthNames.indexOf(selectedMonth) + 1;
+            const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
+            document.getElementById('dataSelecionada').value = formattedDate;
+
+            var dataAtiva = $("#dataSelecionada").val();
+            $.ajax({
+                type: "POST",
+                url: "{% url 'calendar' %}",  // Substitua 'url_do_seu_view' pela URL correta do seu view em Django
+                data: {
+                    'dataAtiva': dataAtiva,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'  // Adicione o token CSRF para proteger contra CSRF attacks
+                },
+
+                success: function (response) {
+                    // Atualizar eventos com base na resposta do servidor
+                    $('#eventosDaDataSelecionada').empty();  // Limpar eventos antigos
+                    response.eventos.forEach(function(evento) {
+                        $('#eventosDaDataSelecionada').append(`
+                        <div class="evento"
+                        style= "
+                            background-color:orange;
+                            width:290px;
+                            word-wrap:break-word;
+                            margin:7px;
+                            margin-left:-10px;
+                            padding:7px;
+                            padding-left:20px;">
+                        <h3>${evento.titulo}</h3>
+                        <p>${evento.descricao}</p>
+                        <p>${ evento.hora }</p>
+                        </div>`);
+                    });
+                },
+                error: function (error) {
+                    console.error("Erro ao enviar dado para Django:", error);
+                }
+            });
         }
 
         function renderCalendar(month, year) {
@@ -343,17 +476,11 @@
                 if (i === today && month === currentMonth && year === currentYear) {
                     day.classList.add('today');
                 }
+                if (hasEvent(year, month, i)) {
+                    day.classList.add('event');
+                }
                 daysContainer.appendChild(day);
             }
-            const eventDayElement = document.querySelector('.event-day');
-            const eventDateElement = document.querySelector('.event-date');
-
-            const currentDate = new Date(currentYear,currentMonth,today);
-            const currentDayOfWeekIndex = currentDate.getDay();
-            const currentDayOfWeek = daysOfWeek[currentDayOfWeekIndex];
-
-            eventDayElement.textContent = `${currentDayOfWeek}`;
-            eventDateElement.textContent = `${today} de ${monthNames[currentMonth]} de ${currentYear}`;
 
             // Adicionar dias do próximo mês
             const remainingDays = 42 - (firstDay + lastDay); // Total de dias - (dias do mês atual + dias do mês anterior)
@@ -363,8 +490,34 @@
                 day.textContent = i;
                 daysContainer.appendChild(day);
             }
+
+            const eventDayElement = document.querySelector('.event-day');
+            const eventDateElement = document.querySelector('.event-date');           
+
+            const currentDate = new Date(currentYear,currentMonth,today);
+            const currentDayOfWeekIndex = currentDate.getDay();
+            const currentDayOfWeek = daysOfWeek[currentDayOfWeekIndex];
+
+            eventDayElement.textContent = `${currentDayOfWeek}`;
+            eventDateElement.textContent = `${today} de ${monthNames[currentMonth]} de ${currentYear}`;
+        }
+
+        function hasEvent(year, month, day) {
+            var minhaLista = [];
+
+            {% for day in lista_data_evento %}
+                minhaLista.push("{{ day }}");
+            {% endfor %}
+            const eventList = minhaLista; // Atribua os valores da sua lista Django para eventList
+            const dateString = `${year}-${month + 1}-${day < 10 ? '0' + day : day}`;
+            // Verificar se a data está na lista de eventos ou se está dentro do mês correspondente
+            return eventList.includes(dateString) || eventList.some(eventDate => {
+                const [eventYear, eventMonth, eventDay] = eventDate.split('-').map(Number);
+                return eventYear === year && eventMonth - 1 === month && eventDay === day;
+            });
         }
     });
+
 </script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
