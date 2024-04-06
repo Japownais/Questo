@@ -15,6 +15,7 @@
 </head>
 
 <body>
+<!-- NAVBAR -->
     <div class="navbar">
         <div class="logo">QUESTO</div>
         <a href="#">Homepage</a>
@@ -26,7 +27,9 @@
             <a href="{%url 'account_signup'%}" class="button">Comece Agora</a>
         </div>
     </div>
-    
+    <!-- FIM NAVBAR -->
+
+    <!-- O QUE É -->
     <div class="container" style="padding-top: 6%">
         <div class="text-content">
             <h1>Seu vestibular, nossa missão. Questão, sempre ao seu lado!</h1>
@@ -42,6 +45,9 @@
             <img src="{%static 'img/home.svg'%}" alt="mulher estudando">
         </div>
     </div>
+<!-- FIM O QUE É-->
+
+<!-- SOBRE NOS-->
     <section class="container-02">
         <div class="div-texto-primeiro" id= "nos">
             <h2>Sobre Nós</h2>
@@ -64,6 +70,9 @@
             </div>
         </div>
     </section>
+<!-- FIM SOBRE NOS -->
+
+<!-- FUNCIONALIDADE-->
     <section class="container-02">
         <div class="div-texto-principal" id ="funcionalidades">
             <h2>Funcionalidades</h2>
@@ -90,8 +99,9 @@
             </div>
         </div>
     </section>
+<!-- FIM FUNCIONALIDADE-->
 
- 
+ <!-- CARROSSEL-->
     <div class="carousel">
         <div class="slide">
             <div class="texto-centralizado" id="desenvolvedores">
@@ -107,7 +117,9 @@
                     para
                     ver a reação do público!"
                 </div>
-                
+                <button class="prev" onclick="prevSlide()"><img src="{%static 'img/angulo-esquerdo.png'%}" alt="mulher estudando"></button>
+                <button class="next" onclick="nextSlide()"><img src="{%static 'img/angulo-direito.png'%}" alt="mulher estudando"></button>
+    
             </div>
         </div>
         <div class="slide">
@@ -120,9 +132,11 @@
                 </div>
                 <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
                 <div class="texto-principal">
-                    "pirilim pirilim"
+                    "O que achamos do projeto Questo? Foi desafiador, mas o resultado final está incrível. Mal podemos esperar para ver a reação do público!"
                 </div>
-                
+                <button class="prev" onclick="prevSlide()"><img src="{%static 'img/angulo-esquerdo.png'%}" alt="mulher estudando"></button>
+                <button class="next" onclick="nextSlide()"><img src="{%static 'img/angulo-direito.png'%}" alt="mulher estudando"></button>
+    
             </div>
         </div>
         <div class="slide">
@@ -135,9 +149,11 @@
                 </div>
                 <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
                 <div class="texto-principal">
-                    "alacazam alacazam"
+                    "O que achamos do projeto Questo? Foi desafiador, mas o resultado final está incrível. Mal podemos esperar para ver a reação do público!"
                 </div>
-                
+                <button class="prev" onclick="prevSlide()"><img src="{%static 'img/angulo-esquerdo.png'%}" alt="mulher estudando"></button>
+                <button class="next" onclick="nextSlide()"><img src="{%static 'img/angulo-direito.png'%}" alt="mulher estudando"></button>
+    
             </div>
         </div>
         <div class="slide">
@@ -150,9 +166,11 @@
                 </div>
                 <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
                 <div class="texto-principal">
-                    "tesão"
+                    "O que achamos do projeto Questo? Foi desafiador, mas o resultado final está incrível. Mal podemos esperar para ver a reação do público!"
                 </div>
-                
+                <button class="prev" onclick="prevSlide()"><img src="{%static 'img/angulo-esquerdo.png'%}" alt="mulher estudando"></button>
+                <button class="next" onclick="nextSlide()"><img src="{%static 'img/angulo-direito.png'%}" alt="mulher estudando"></button>
+    
             </div>
         </div>
         <div class="slide">
@@ -165,8 +183,11 @@
                 </div>
                 <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
                 <div class="texto-principal">
-                    "vou dar o cu"
+                    "O que achamos do projeto Questo? Foi desafiador, mas o resultado final está incrível. Mal podemos esperar para ver a reação do público!"
                 </div>
+                <button class="prev" onclick="prevSlide()"><img src="{%static 'img/angulo-esquerdo.png'%}" alt="mulher estudando"></button>
+                <button class="next" onclick="nextSlide()"><img src="{%static 'img/angulo-direito.png'%}" alt="mulher estudando"></button>
+    
                 
             </div>
         </div>
@@ -180,40 +201,81 @@
                 </div>
                 <div class="texto-abaixo-imagem">Questo<br>Equipe de Desenvolvimento</div>
                 <div class="texto-principal">
-                    "vou dar o cu"
+                    "O que achamos do projeto Questo? Foi desafiador, mas o resultado final está incrível. Mal podemos esperar para ver a reação do público!"
                 </div>
                 
             </div>
-        </div>
             <button class="prev" onclick="prevSlide()"><img src="{%static 'img/angulo-esquerdo.png'%}" alt="mulher estudando"></button>
             <button class="next" onclick="nextSlide()"><img src="{%static 'img/angulo-direito.png'%}" alt="mulher estudando"></button>
-    </div>
-    
 
-    <div class="container-final">
-        <div class="texto-centralizado" id = "plataforma">
-            <h2>O que faz o <u>Questo</u> ser<br>sua melhor escolha?</h2>
         </div>
-        <div class="container-duas-colunas">
-            <div class="coluna-imagem">
-                <img src="imagem.jpg" alt="Qualquer img">
+    </div>
+<!-- FIM CARROSSEL-->    
+
+<!-- ESCOLHA -->
+<div class="container-final">
+    <div class="texto-centralizado" id="plataforma">
+        <h2>O que faz o <u>Questo</u> ser<br>sua melhor escolha?</h2>
+    </div>
+    <div class="container-duas-colunas">
+        <div class="coluna-imagem">
+            <img src="{%static 'img/testeA.avif'%}" alt="mulher estudando">
+        </div>
+        <div class="coluna-texto">
+            <div class="linha">
+                <div class="testeAAA">
+                <div class="icone">
+                    <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                </div>
             </div>
-            <div class="coluna-texto">
-                <div class="linha">
-                    <div class="icone">Ícone 1</div>
-                    <div class="texto">Texto 1</div>
+                <div class="texto">Organização</div>
+            </div>
+            <div class="linha">
+                <div class="testeAAA">
+                    <div class="icone">
+                        <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                    </div>
                 </div>
-                <div class="linha">
-                    <div class="icone">Ícone 2</div>
-                    <div class="texto">Texto 2</div>
+                <div class="texto">Estudo</div>
+            </div>
+            <div class="linha">
+                <div class="testeAAA">
+                    <div class="icone">
+                        <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                    </div>
                 </div>
-                <div class="linha">
-                    <div class="icone">Ícone 3</div>
-                    <div class="texto">Texto 3</div>
+                <div class="texto">Não sei mais</div>
+            </div>
+            <div class="linha">
+                <div class="testeAAA">
+                    <div class="icone">
+                        <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                    </div>
                 </div>
+                <div class="texto">Flashcard</div>
+            </div>
+            <div class="linha">
+                <div class="testeAAA">
+                    <div class="icone">
+                        <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                    </div>
+                </div>
+                <div class="texto">Comunidade</div>
+            </div>
+            <div class="linha">
+                <div class="testeAAA">
+                    <div class="icone">
+                        <img src="{%static 'img/lula.jpg'%}" alt="mulher estudando">
+                    </div>
+                </div>
+                <div class="texto">Redação</div>
             </div>
         </div>
     </div>
+</div>
+<!-- FIM ESCOLHA-->
+
+<!-- FOOTER-->
     <footer class="footer">
         <div class="coluna coluna-40">
             <h2>QUESTO</h2>
@@ -233,6 +295,7 @@
             <p>Texto à esquerda</p>
         </div>
     </footer>
+<!-- FIM FOOTER-->
 </body>
 
 
