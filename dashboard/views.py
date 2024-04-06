@@ -36,10 +36,8 @@ def calendar(request):
         data_selecionada = request.POST.get('dataAtiva')
         data_selecionada = datetime.strptime(data_selecionada, '%Y-%m-%d').date()
 
-        eventos = Evento.objects.filter(usuario=request.user, data=data_selecionada)
-
+        eventos = Evento.objects.filter(usuario=request.user, data=data_selecionada).order_by('hora')
         eventos_dict = [model_to_dict(evento) for evento in eventos]
-
         lista_data_evento = [evento.data.strftime('%Y-%m-%d') for evento in eventos]
 
         context = {'eventos': eventos_dict, 'lista_data_evento': lista_data_evento}

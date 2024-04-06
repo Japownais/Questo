@@ -1,5 +1,6 @@
 from django import forms
-from .models import Deck, Flashcard,Evento
+from .models import Deck, Flashcard, Evento
+import datetime
 
 class DeckForm(forms.ModelForm):
     class Meta:
@@ -29,6 +30,6 @@ class EventoForm(forms.ModelForm):
             'descricao': 'Descrição do Evento',
             'hora': 'Hora do Evento',
         }
-
-
-        
+        widgets = {
+            'hora': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
+        }

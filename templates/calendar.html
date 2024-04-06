@@ -182,6 +182,24 @@
         color: #7FC8F8;
     }
 
+    .button-container {
+        height: 30px;
+        width: 30px;
+        margin-left: 250px;
+        margin-top: -20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #00aa00;
+        border-radius: 5px;
+        position: absolute;
+        cursor: pointer;
+    }
+
+    .button-container:hover {
+        background-color: #f0f0f0; /* Mudando a cor de fundo quando o mouse passa sobre o botão */
+    }
+
     .modal {
         display: none;
         position: fixed;
@@ -226,6 +244,7 @@
         float: right;
         font-size: 28px;
         font-weight: bold;
+        margin-top:-10px
     }
 
     .fechar:hover,
@@ -291,19 +310,25 @@
     </div>
     <div class="right">
         <div class="today-date">
-            <div class="event-day"></div>
-            <div class="event-date"></div>
 
-            <button class="add btn" id="abrirModalBtn">ADD</button>
+            <div class="event-day" style="margin-right:200px"></div>
+            <a class="add btn" id="abrirModalBtn">
+                <div class="button-container">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </a>
+            <div class="event-date" style="margin-right:100px"></div>
+
+            
 
             <div id="meuModal" class="modal">
                 <div class="modal-content">
-                    <span class="fechar" style="margin-top:-10px">&times;</span>
+                    <span class="fechar">&times;</span>
                     <h2>
-                    <form method="post" action=".">
+                    <form method="post">
                         {% csrf_token %}
                         {{ form }}
-                        <input type="" name="data" id="dataSelecionada">
+                        <input type="hidden" name="data" id="dataSelecionada">
                         <input type="submit" value="Salvar">
                     </form>
                     </h2>
@@ -457,6 +482,9 @@
             const daysContainer = document.querySelector('.days');
             const lastMonthLastDay = new Date(year, month, 0).getDate(); // Último dia do mês anterior
 
+            const formattedToday = `${year}-${month+1}-${today}`;
+            document.getElementById('dataSelecionada').value = formattedToday;
+
             dateElement.textContent = `${monthNames[month]} ${year}`;
             daysContainer.innerHTML = '';
 
@@ -508,6 +536,7 @@
             {% for day in lista_data_evento %}
                 minhaLista.push("{{ day }}");
             {% endfor %}
+            
             const eventList = minhaLista; // Atribua os valores da sua lista Django para eventList
             const dateString = `${year}-${month + 1}-${day < 10 ? '0' + day : day}`;
             // Verificar se a data está na lista de eventos ou se está dentro do mês correspondente
