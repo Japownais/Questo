@@ -6,10 +6,29 @@
     scroll-behavior: smooth;
     scrollbar-width: none;
 }
-
-body {
+body{
+    background-image: linear-gradient(
+        to bottom,
+        #2a2a2a 0%,
+        #2a2a2a 40%,
+        #2f1c48 40%,
+        #2f1c48 100%
+    );
+}
+.banner {
     font-family: Arial, sans-serif;
     margin: 0;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner .waves{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    height:124%;
 }
 
 .navbar {
@@ -17,6 +36,10 @@ body {
     overflow: hidden;
     position: fixed;
     width: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .navbar a {
@@ -85,10 +108,13 @@ body {
     display: flex;
     justify-content: space-between;
     padding: 30px;
+
+    align-items: center;
 }
 
 .text-content {
     max-width: 50%;
+    flex: 1;
 }
 
 .text-content h1 {
@@ -104,6 +130,7 @@ body {
     font-size: 20px;
     margin-top: 30px;
     text-align: justify;
+    color: white;
 }
 
 .text-content .btn-cadastrar {
@@ -135,6 +162,8 @@ body {
     margin-top: 100px;
     width: 120%;
     max-width: 800px;
+    flex: 1;
+    text-align: center;
 }
 
 .container-02 {
@@ -152,6 +181,8 @@ body {
     font-family: Oi;
     font-size: 50px;
     margin-top: 20px;
+    color: white;
+
 }
 
 .div-texto-segundo h2 {
@@ -159,6 +190,7 @@ body {
     font-size: 40px;
     font-weight: 700;
     margin: 20px;
+    color: white;
 }
 
 .div-terceira {
@@ -170,9 +202,20 @@ body {
 .coluna {
     flex: 1;
     text-align: center;
-    padding: 20px;
+    padding: 40px;
 }
-
+.coluna p{
+    font-size: 20px;
+    color: #fff;
+    font-family: Poppins;
+}
+.coluna h2{
+    font-size: 25px;
+    color: #fff;
+    padding: 7px;
+    font-weight: bold;
+    font-family: Poppins;
+}
 .icon {
     display: inline-flex;
     justify-content: center;
@@ -183,15 +226,22 @@ body {
     background-color: #ac6cff;
     border-radius: 50%;
 }
-
-.icon-dois {
-    font-size: 24px;
+.icon img{
+    width: 50px;
+    height: 50px;
+}
+.icon-dois img{
+    width: 50px;
+    height: 50px;
 }
 
 .div-texto-principal h2 {
     margin-top: 100px;
     font-family: Oi;
     font-size: 40px;
+    color: white;
+    z-index: 20;
+
 }
 
 .div-subtexto h2 {
@@ -199,6 +249,8 @@ body {
     font-family: Poppins;
     font-weight: 600;
     margin-top: 15px;
+    color: white;
+    z-index: 20;
 }
 
 .coluna-dois {
@@ -208,14 +260,24 @@ body {
     margin: 20px;
     border-radius: 10px;
     padding: 40px;
+    width: 250px;
+    height: 250px;
 }
-
+.coluna-dois p{
+    font-family: Poppins;
+    font-style: oblique;
+    color:#fff;
+    font-size: 20px;
+    padding-top: 10px;
+}
 .texto-centralizado h2 {
     text-align: center;
     font-family: Poppins;
     font-weight: bold;
     font-size: 30px;
     margin-top: 100px;
+    color: white;
+
 }
 
 .container-centralizado {
@@ -232,10 +294,9 @@ body {
     border-radius: 30px;
 }
 
-.imagem {
+.imagem img{
     width: 80px;
     height: 80px;
-    background-color: #ccc;
     border-radius: 50%;
 }
 
@@ -260,49 +321,6 @@ body {
     margin-top: 30px;
 }
 
-.container-final {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.container-duas-colunas {
-    display: flex;
-    justify-content: center;
-}
-
-.coluna-imagem {
-    flex: 1;
-    text-align: center;
-}
-
-.coluna-texto {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 40px;
-    margin-left: 40px;
-}
-
-.linha {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.icone {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 100px;
-    font-size: 24px;
-    color: white;
-    background-color: #2f1c48;
-    /*Roxo Escuro*/
-    border-radius: 50%;
-}
-
 .coluna-texto .linha .texto {
     margin-left: 40px;
     font-family: Poppins;
@@ -310,41 +328,171 @@ body {
     font-weight: 600;
 }
 
+.carousel {
+    display: flex;
+    overflow-x: hidden;
+}
+
+.slide {
+    flex: 0 0 100%;
+    position: relative;
+}
+
+.carousel .slide .container-centralizado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.prev {
+    left: 350px;
+    margin-top: 80px;
+
+}
+
+.prev img{
+    width: 30px;
+    height: 30px;
+}
+
+.next {
+    right: 350px;
+    margin-top: 80px;
+
+}
+
+.next img{
+    width: 30px;
+    height: 30px;
+}
+
+/* TESTE */
+
+.container-final {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-duas-colunas {
+    display: flex;
+    align-items: center;
+}
+
+.coluna-imagem img {
+    max-width: 100%;
+    height: auto;
+    padding: 15px;
+}
+
+.linha {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: WHITE;
+    width: 520px;
+    height:120px;
+    border-radius: 30px;
+}
+
+.icone img{
+    width: 50px; /* largura do círculo */
+    height: 50px; /* altura do círculo */
+  
+}
+.texto {
+    color: #2f1c48;
+}
+
+.testeAAA{
+    width: 70px; /* largura do círculo */
+    height: 70px; /* altura do círculo */
+    border-radius: 50%; /* torna o elemento redondo */
+    background-color: #2f1c48; /* cor do círculo */
+    margin-left: 20px;
+    align-items: center;
+}
+
+.containeeer {
+    max-width: 1200px; /* Define a largura máxima do container */
+    margin: 0 auto; /* Centraliza o container na página */
+    padding: 0 20px; /* Adiciona um padding interno ao container */
+    box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho do container */
+}
 .footer {
+    background-color: #fff;
+    color: #2f1c48;
+    width: auto;
     display: flex;
+    align-items: flex-start;
+    border-bottom: 2px solid #2f1c48; /* Adiciona uma borda superior ao footer */
     flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #fbebd7;
+    justify-content: space-around;
 }
 
-.coluna {
-    flex: 0 0 auto;
-    width: calc(20% - 20px);
-    margin-bottom: 20px;
-}
-
-.coluna-40 h2 {
-    width: calc(40% - 20px);
-    padding-left: 20px;
-    font-family: Oi;
+.logo  h1{
     font-size: 30px;
-    padding-top: 14px;
-    padding-bottom: 14px;
+    color: #2f1c48;
+    margin-bottom: 10px;
+    
 }
 
-.coluna-40 p {
-    width: calc(40% - 20px);
+.frase-efeito {
+    font-style: italic;
 }
 
+.coluna-contato,
+.coluna-sobre {
+    flex: 1;
+    margin-left: 20px;
+    text-align: center;
+
+}
+
+.coluna-sobre ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.coluna-sobre ul li {
+    margin-bottom: 5px;
+}
+
+.coluna-sobre ul li a {
+    color: #2f1c48;
+    text-decoration: none;
+}
+
+.coluna-sobre ul li a:hover {
+    text-decoration: underline;
+}
 .linha-footer {
-    width: 100%;
+    width: 87%;
     height: 1px;
-    background-color: #000;
+    background-color: #2f1c48;
     margin: 20px 0;
+    display: flexbox;
+  }
+/* Estilos para telas menores */
+@media screen and (max-width: 768px) {
+    .containeeer {
+        padding: 0 10px; /* Reduz o padding interno para telas menores */
+    }
 }
 
-.linha-texto {
-    display: flex;
-    justify-content: space-between;
+/* Estilos para telas maiores */
+@media screen and (min-width: 1200px) {
+    .containeeer {
+        max-width: 1400px; /* Aumenta a largura máxima do container para telas maiores */
+    }
 }
