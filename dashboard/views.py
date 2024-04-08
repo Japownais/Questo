@@ -1,56 +1,61 @@
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import DeckForm, EventoForm
-from django.http import HttpResponse
-from .models import Evento
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseServerError
+from .models import Evento, Deck
 from django.views.decorators.csrf import csrf_exempt
-from datetime import date
+from datetime import date, datetime
 import json
-from .models import Deck
-
+from django.utils.html import format_html
+from django.forms.models import model_to_dict
 
 # Create your views here.
 @login_required
 def profile(request):
     return render(request, 'profile.html')
 
+
 @login_required
-def calendar(request):
-
-
+@csrf_exempt
+def calendar(request):    
     if request.method == 'POST':
-        print("Com post")
-        return data_calendar(request)
+        form = EventoForm(request.POST)
+        if form.is_valid():
+            evento = form.save(commit=False)
+            evento.usuario = request.user
+            data_selecionada = request.POST.get('data')
+            evento.data = data_selecionada
+            evento.save()
+            return redirect('calendar')
     else:
-        print("Sem post")
-        return render(request, 'calendar.html')
+        form = EventoForm()
 
-def data_calendar(request):
     if request.method == 'POST':
-        dia_selecionado = int(request.POST.get('diaSelecionado'))
-        mes_selecionado = int(request.POST.get('mesSelecionado')) + 1
-        ano_selecionado = int(request.POST.get('anoSelecionado'))
-        data = date(ano_selecionado, mes_selecionado, dia_selecionado)
-        
-        return JsonResponse({'data': data, 'dia': dia_selecionado, 'mes': mes_selecionado, 'ano': ano_selecionado})
-  
-    
-def form_calendar(request):
-    if request.method == 'POST':
-        print("Botão apertado")
-        return render(request, 'calendar.html')
-    print("Botão não apertado ???")
-    return render(request, 'calendar.html')
+        data_selecionada = request.POST.get('dataAtiva')
+        data_selecionada = datetime.strptime(data_selecionada, '%Y-%m-%d').date()
 
+        eventos = Evento.objects.filter(usuario=request.user, data=data_selecionada).order_by('hora')
+        eventos_dict = [model_to_dict(evento) for evento in eventos]
+        lista_data_evento = [evento.data.strftime('%Y-%m-%d') for evento in eventos]
 
+        context = {'eventos': eventos_dict, 'lista_data_evento': lista_data_evento}
+        return JsonResponse(context)
+    else:
+        form = EventoForm()
+        eventos_marcados = Evento.objects.filter(usuario=request.user)
+        datas_eventos = [evento.data for evento in eventos_marcados]
+        lista_data_evento = [data.strftime('%Y-%m-%d') for data in datas_eventos]
+
+        eventos = Evento.objects.filter(usuario=request.user, data=date(2024, 4, 30))
+
+        context = {'form': form, 'datas_eventos': datas_eventos, 'lista_data_evento': lista_data_evento, 'eventos': eventos}
+        return render(request, 'calendar.html', context=context)
+ 
 def home(request):
     return render(request,'home.html')
 
 def flashcards(request):
-
-    decks = Deck.objects.filter(usuario=request.user)  # Recupere os decks do usuário atual
-    
+    decks = Deck.objects.filter(usuario=request.user)
     if request.method == 'POST':
         deck_form = DeckForm(request.POST)  # Inicialize o formulário com os dados submetidos
         if deck_form.is_valid():  # Verifique se o formulário é válido
