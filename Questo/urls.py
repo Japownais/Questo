@@ -26,6 +26,5 @@ urlpatterns = [
     path('accounts/flashcards/', views.flashcards, name='flashcards'),
     path('',views.home,name="home"),
     path('accounts/calendar/', views.calendar, name='calendar'),
-
-
+    path('deletar_deck/<int:deck_id>/', views.deletar_deck, name='deletar_deck'),
 ]

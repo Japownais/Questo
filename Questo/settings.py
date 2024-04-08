@@ -137,18 +137,10 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_PORT = 587  # Porta para conexão SMTP (geralmente 587 para TLS)
-EMAIL_USE_TLS = True  # Use TLS (True) ou SSL (False) para conexão segura
-EMAIL_HOST_USER = 'questodev@gmail.com'  # Seu endereço de e-mail
-EMAIL_HOST_PASSWORD = 'pontepreta47'  # Sua senha de e-mail
-EMAIL_HOST= 'smtp.gmail.com'
-
-ACCOUNT_EMAIL_REQUIRED=True
-
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 
-ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+ACCOUNT_EMAIL_REQUIRED=True
 
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'

@@ -6,9 +6,13 @@ Flashcards
 {%block head%}
 <style>
     .container {
-        background-color: #ac6cff;
+        font-family: 'Poppins', sans-serif;
+        background-color: #5865f2;
         padding: 20px;
         border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .main {
@@ -17,29 +21,32 @@ Flashcards
         justify-content: center;
         align-items: center;
     }
-    h1{
+
+    h1 {
         font-size: 27px;
         font-weight: 500;
     }
+
     .deck {
         display: flex;
         justify-content: space-between;
         width: 600px;
         background-color: white;
         border-radius: 5px;
-        margin: 14px;
+        margin: 7px;
         padding: 5px;
     }
 
     .btn {
-        width: 80px;
+        width: 40px;
         border: none;
         border-radius: 5px;
         font-size: 20px;
+        cursor: pointer;
     }
 
     .add {
-        background-color: rgb(43, 255, 0);
+        background-color: #57f287;
         cursor: pointer;
     }
 
@@ -48,19 +55,20 @@ Flashcards
     }
 
     .delet {
-        background-color: red;
+        background-color: #ed4245;
     }
 
     .new {
         width: 200px;
-        background-color: #f8d57e;
-        border:none;
+        background-color: #fee75c;
+        border: none;
         font-weight: 600;
     }
 
     .header {
         display: flex;
         justify-content: space-between;
+        width: 600px;
     }
 
     /* Modal styles */
@@ -69,40 +77,48 @@ Flashcards
         position: fixed;
         z-index: 1;
         left: 0;
-        top: 0;
+        /* Começa fora da tela */
         width: 100%;
         height: 100%;
+        transform: translate(0%, 10%);
         overflow: auto;
-        transition: opacity 0.3s ease-in-out;
-        transform: scale(0.9);
-        /* Escala inicial para simular um "pop" */
-        /* Add transition for smooth fade */
+        animation: modal-slide-in 0.5s ease-out forwards;
     }
-
+    .mdl-delet{
+        width: 30%;
+        transform: translate(120%, 20%);
+    }
     .modal-content {
-        background-color: #ac6cff;
-        margin: 7% auto;
+        background-color: #5865f2;
+        margin: 0 auto;
         border-radius: 10px;
         padding: 20px;
-        border: 1px solid #888;
         width: 80%;
-        animation: modal-in 0.3s ease-in-out;
-        /* Add animation for modal entrance */
     }
 
-    /* Modal animation */
-    @keyframes modal-in {
+    @keyframes modal-slide-in {
         from {
-            opacity: 0;
-            transform: scale(0.9);
+            top: -100%;
+            /* Começa fora da tela */
         }
 
         to {
-            opacity: 1;
-            transform: scale(1);
+            top: 0;
+            /* Desliza para dentro da tela */
         }
     }
 
+    @keyframes modal-slide-out {
+        from {
+            top: 0;
+            /* Começa na tela */
+        }
+
+        to {
+            top: -100%;
+            /* Desliza para fora da tela */
+        }
+    }
 
     /* Close button styles */
     .fechar {
@@ -135,7 +151,7 @@ Flashcards
     }
 
     .error {
-        color: red;
+        color: #ed4245;
         /* Display errors in red */
         font-size: 0.8rem;
         /* Make error messages slightly smaller */
@@ -152,72 +168,146 @@ Flashcards
         width: 100%;
         /* Make fields full width */
     }
+
+    textarea {
+        resize: none;
+    }
 </style>
 {%endblock%}
 {%block content%}
 <div class="container">
     <div class="header">
         <h1>Meus Baralhos</h1>
-        <button class="add btn" id="abrirModalBtn">Criar</button>
+        <button class="add btn" id="abrirModalNew"><i class="fa-solid fa-plus"></i></button>
     </div>
     {% for deck in decks %}
     <div class="deck">
         <h2>{{ deck.nome }}</h2>
         <div>
-            <button class="edit btn">Editar</button>
-            <button class="delet btn">Apagar</button>
+            <button class="add btn"><i class="fa-solid fa-folder-open"></i></button>
+            <button class="edit btn"><i class="fa-solid fa-pen"></i></button>
+            <button class="delet btn" data-deck-id="{{ deck.id }}" data-deck-title="{{ deck.nome }}"><i
+                    class="fa-solid fa-trash"></i></button>
         </div>
     </div>
     {% endfor %}
-
-
 </div>
-<div id="meuModal" class="modal">
+<!-- Modal para adicionar um novo Baralho-->
+<div id="ModalNew" class="modal">
     <div class="modal-content">
         <span class="fechar">&times;</span>
         <h1>Criar Baralho</h1>
         <form method="post" class="deck-form">
             {% csrf_token %}
             <div class="form-group">
-                <label for="nome" class="form-label">Nome do Deck</label>
+                <label for="nome" class="form-label">Nome do Deck:</label>
                 {{ deck_form.nome }}
                 <div class="error"> {{ deck_form.nome.errors }}
                 </div>
             </div>
             <div class="form-group">
-                <label for="descricao" class="form-label">Descrição do Deck</label>
+                <label for="descricao" class="form-label">Descrição do Deck:</label>
                 {{ deck_form.descricao }}
                 <div class="error"> {{ deck_form.descricao.errors }}
                 </div>
             </div>
-            <button class="btn new" type="submit">Salvar Baralho</button>
+            <button class="btn new" type="submit">Criar Baralho</button>
         </form>
     </div>
 </div>
+<!-- Modal para Deletar Baralho-->
+<div id="modalConfirm" class="modal mdl-delet">
+    <div class="modal-content">
+        <h1>Deseja realmente excluir o baralho <span id="deckTitle"></span>?</h1>
+        <button class="btn"style="background-color: #57f287; width: 120px; " id="confirmDelete">Sim</button>
+        <button class="btn" style="background-color: #ed4245; width: 120px;" id="cancelDelete">Não</button>
+    </div>
+</div>
 <script>
-    // Obtenha o botão de abrir modal e o modal em si
-    var abrirModalBtn = document.getElementById("abrirModalBtn");
-    var meuModal = document.getElementById("meuModal");
+    var abrirModalNew = document.getElementById("abrirModalNew");
+    var ModalNew = document.getElementById("ModalNew");
+    var fecharBtn = document.querySelector("#ModalNew .fechar");
 
-    // Obtenha o elemento de fechar dentro do modal
-    var fecharBtn = document.getElementsByClassName("fechar")[0];
-
-    // Quando o usuário clicar no botão, abra o modal
-    abrirModalBtn.onclick = function () {
-        meuModal.style.display = "block";
+    abrirModalNew.onclick = function () {
+        ModalNew.style.display = "block";
     }
 
-    // Quando o usuário clicar no botão de fechar, feche o modal
     fecharBtn.onclick = function () {
-        meuModal.style.display = "none";
+        ModalNew.style.animation = 'modal-slide-out 0.5s ease-in forwards';
+        setTimeout(function () {
+            ModalNew.style.display = "none";
+            ModalNew.style.animation = '';
+        }, 500);
     }
 
-    // Quando o usuário clicar fora do modal, feche-o
     window.onclick = function (event) {
-        if (event.target == meuModal) {
-            meuModal.style.display = "none";
+        if (event.target == ModalNew) {
+            ModalNew.style.animation = 'modal-slide-out 0.5s ease-in forwards';
+            setTimeout(function () {
+                ModalNew.style.display = "none";
+                ModalNew.style.animation = '';
+            }, 500);
         }
+
+        const modalConfirm = document.getElementById('modalConfirm');
+        if (event.target == modalConfirm) {
+            modalConfirm.style.animation = 'modal-slide-out 0.5s ease-in forwards';
+            setTimeout(function () {
+                modalConfirm.style.display = "none";
+                modalConfirm.style.animation = '';
+            }, 500);
+        }
+
     }
+
+    document.querySelectorAll('.delet').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const deckId = btn.dataset.deckId;
+            const deckTitle = btn.dataset.deckTitle; // Obtém o nome do deck
+            const modalConfirm = document.getElementById('modalConfirm');
+            const deckTitleSpan = document.getElementById('deckTitle');
+
+            modalConfirm.style.display = 'block';
+            deckTitleSpan.textContent = deckTitle; // Define o nome do deck no modal de confirmação
+
+            const confirmDeleteBtn = document.getElementById('confirmDelete');
+            const cancelDeleteBtn = document.getElementById('cancelDelete');
+
+            confirmDeleteBtn.onclick = function () {
+                // Aqui você pode adicionar a lógica para excluir o baralho
+                fetch(`/deletar_deck/${deckId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        window.location.reload();
+                    } else {
+                        console.error('Ocorreu um erro ao excluir o deck.');
+                    }
+                }).catch(error => {
+                    console.error('Ocorreu um erro ao excluir o deck:', error);
+                });
+
+                modalConfirm.style.animation = 'modal-slide-out 0.5s ease-in forwards';
+                setTimeout(function () {
+                    modalConfirm.style.display = "none";
+                    modalConfirm.style.animation = '';
+                }, 500);
+            };
+            cancelDeleteBtn.onclick = function () {
+                modalConfirm.style.animation = 'modal-slide-out 0.5s ease-in forwards';
+                setTimeout(function () {
+                    modalConfirm.style.display = "none";
+                    modalConfirm.style.animation = '';
+                }, 500);
+            };
+
+        });
+    });
 
 </script>
+
+
 {%endblock%}

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404,redirect
 from django.contrib.auth.decorators import login_required
 from .forms import DeckForm, EventoForm
 from django.http import HttpResponse
@@ -57,9 +57,16 @@ def flashcards(request):
             deck = deck_form.save(commit=False)  # Salve os dados do formulário sem commit no banco de dados
             deck.usuario = request.user  # Atribua o usuário atual ao deck
             deck.save()  # Salve o deck no banco de dados
-            return HttpResponse("Deck salvo com sucesso!") 
+            return redirect('flashcards')
     else:
         deck_form = DeckForm()  # Caso contrário, crie um formulário em branco para ser exibido
     
     # Renderize o template com o formulário e os decks do usuário atual
     return render(request, 'flashcards.html', {'decks': decks, 'deck_form': deck_form})
+
+def deletar_deck(request, deck_id):
+    deck = get_object_or_404(Deck, id=deck_id)
+    if request.method == 'POST':
+        deck.delete()
+        return redirect('flashcards')
+    return redirect('flashcards')

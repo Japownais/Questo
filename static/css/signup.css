@@ -1,17 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,100;9..40,200;9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-* {
+*{
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
     text-decoration: none;
-    font-family: 'DM Sans', sans-serif;
 }
 
 .main-singup {
+    box-sizing: border-box;
     width: 100vw;
     height: 100vh;
-    background: #ac6cff;
+    background: #5865f2;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -28,12 +29,16 @@
 }
 
 .right-singup>h1 {
-    color: #fbebd7;
-    font-size: 3vw;
+    color: #fff;
+    font-size: 2.3vw;
+}
+
+.right-singup>img {
+    width: 43vw;
 }
 
 .left-singup {
-    width: 50vw;
+    width: 55vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -47,13 +52,13 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 15px 35px;
-    background: #2f1c48;
+    padding: 15px 27px;
+    background: #23272a;
     border-radius: 20px;
 }
 
 .card-singup>h1 {
-    color: #fbebd7;
+    color: #fff;
     font-weight: 800;
     margin: 0;
 }
@@ -72,7 +77,7 @@ input {
     border: none;
     border-radius: 10px;
     padding: 15px;
-    background: #f8d57e;
+    background: #fff;
     color: #00000056;
     font-size: 12pt;
     box-shadow: 0px 10px 40px #00000056;
@@ -83,6 +88,7 @@ input {
 label {
     color: #f0ffffde;
     margin-bottom: 10px;
+    font-weight: 700;
 }
 
 button {
@@ -96,16 +102,16 @@ button {
     text-transform: uppercase;
     font-weight: 800;
     letter-spacing: 3px;
-    background: #ac6cff;
+    background: #fee75c;
     color: #000A12;
     cursor: pointer;
-    box-shadow: 0px 10px 40px -12px #ac6cff;
+    box-shadow: 0px 10px 40px -12px #23272a;
 }
 
 ul {
     font-weight: 700;
-    color: #F17105;
-    font-size: 13px;
+    color: #ed4245;
+    font-size: 11px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -123,9 +129,5 @@ a {
 a:hover {
     font-weight: 500;
     text-decoration: underline;
-    color: #ac6cff;
-}
-
-.right-singup-image {
-    width: 35vw;
+    color: #ed4245;
 }
