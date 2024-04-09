@@ -21,30 +21,34 @@
     }
 
     .container {
-        width: 800px;
-        min-height: 400px;
+        width: 1000px;
+        min-height: 650px;
         margin: 0 auto;
         padding: 5px;
         display: flex;
         border-radius: 5px;
-        background-color: #FF6392;
+        background-color: #5865f2;
     }
 
     .left {
-        width: 60%;
+        width: 50%;
         padding: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
     }
 
     .calendar {
         position: relative;
         width: 100%;
-        height: 100%;
+        height: 85%;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        justify-content: space-between;
+        justify-content: center;
         border-radius: 5px;
-        background-color: #7FC8F8;
+        background-color: #fff;
     }
 
     .calendar .month {
@@ -101,22 +105,28 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 1px solid #f5f5f5;
+        border: 1px solid #777;
+        background-color: #f2f2f2;
         transition: background-color 0.3s;
     }
 
-    .calendar .days .day:hover:not(.today) {
-        background-color: #f5f5f5;
+    .calendar .days .day:hover:not(.today, .active) {
+        background-color: #fff;
     }
 
     .calendar .days .today {
-        background-color: #FFE45E;
+        background-color: #5865f2;
         position: relative;
     }
 
     .calendar .days .active {
-        background-color: #FF6392;
+        background-color: #fee75c;
         position: relative;
+    }
+    
+    .calendar .days .inactive {
+        background-color: #dbdbdb;
+        cursor: not-allowed;
     }
 
     .calendar .days .event {
@@ -130,7 +140,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        box-shadow: 0 0 0 10px 2px #FF6392;
+        box-shadow: 0 0 0 10px 2px #5865f2;
     }
 
     .calendar .day.event::after {
@@ -143,7 +153,7 @@
         /* largura da barra */
         height: 6px;
         /* altura da barra */
-        background-color: #FF0000;
+        background-color: #fee75c;
         /* cor da barra */
         border-radius: 30px;
         /* borda arredondada */
@@ -154,6 +164,8 @@
         position: relative;
         width: 40%;
         min-height: 70%;
+        padding-top: 2%;
+        padding-left: 30px;
     }
 
     .right .today-date {
@@ -168,36 +180,44 @@
     .today-date .event-day {
         font-size: 2rem;
         font-weight: 500;
-    }
-
-    .calendar .days .inactive {
-        opacity: 0.5;
-        cursor: not-allowed;
-        /* Define a opacidade dos dias inativos */
+        margin-right:200px
     }
 
     .today-date .event-date {
         font-size: 1.2rem;
         font-weight: 400;
-        color: #7FC8F8;
+        color: #fee75c;
     }
 
-    .button-container {
+    .btn-newform {
         height: 30px;
         width: 30px;
-        margin-left: 250px;
+        margin-left: 350px;
         margin-top: -20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #00aa00;
+        background-color: #57f287;
         border-radius: 5px;
         position: absolute;
         cursor: pointer;
     }
 
-    .button-container:hover {
+    .btn-newform:hover {
         background-color: #f0f0f0; /* Mudando a cor de fundo quando o mouse passa sobre o botão */
+    }
+
+    .btn-delet {
+        height: 30px;
+        width: 30px;
+        margin-left: 325px;
+        margin-top: -25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #ed4245;
+        border-radius: 5px;
+        cursor: pointer;
     }
 
     .modal {
@@ -310,18 +330,15 @@
     </div>
     <div class="right">
         <div class="today-date">
-
-            <div class="event-day" style="margin-right:200px"></div>
-            <a class="add btn" id="abrirModalBtn">
-                <div class="button-container">
+            <div class="event-day"></div>
+            <a class="" id="btnModalForm">
+                <div class="btn-newform">
                     <i class="fas fa-plus"></i>
                 </div>
             </a>
             <div class="event-date" style="margin-right:100px"></div>
 
-            
-
-            <div id="meuModal" class="modal">
+            <div id="modalForm" class="modal">
                 <div class="modal-content">
                     <span class="fechar">&times;</span>
                     <h2>
@@ -334,7 +351,8 @@
                     </h2>
                 </div>
             </div>
-            <div id="eventosDaDataSelecionada" style="height:437px; margin-top:5px; margin-right:10px; overflow:auto; overflow-x:hidden;";>
+
+            <div id="eventosDaDataSelecionada" style="height:470px; margin-top:8px; margin-right:15px; margin-left:-20px; overflow:auto; overflow-x:hidden;";>
                 {% for evento in eventos %}
                 <div class="evento"></div>
                 {% endfor %}
@@ -343,21 +361,21 @@
     </div>
 </div>
 <script>
-    var abrirModalBtn = document.getElementById("abrirModalBtn");
-    var meuModal = document.getElementById("meuModal");
+    var btnModalForm = document.getElementById("btnModalForm");
+    var modalForm = document.getElementById("modalForm");
     var fecharBtn = document.getElementsByClassName("fechar")[0];
 
-    abrirModalBtn.onclick = function () {
-        meuModal.style.display = "block";
+    btnModalForm.onclick = function () {
+        modalForm.style.display = "block";
     }
 
     fecharBtn.onclick = function () {
-        meuModal.style.display = "none";
+        modalForm.style.display = "none";
     }
 
     window.onclick = function (event) {
-        if (event.target == meuModal) {
-            meuModal.style.display = "none";
+        if (event.target == modalForm) {
+            modalForm.style.display = "none";
         }
     }
 
@@ -453,17 +471,26 @@
                     response.eventos.forEach(function(evento) {
                         $('#eventosDaDataSelecionada').append(`
                         <div class="evento"
-                        style= "
-                            background-color:orange;
-                            width:290px;
+                        style=
+                        "
+                            background-color: #fee75c;
+                            width:374px;
                             word-wrap:break-word;
                             margin:7px;
-                            margin-left:-10px;
                             padding:7px;
-                            padding-left:20px;">
-                        <h3>${evento.titulo}</h3>
+                            padding-left:10px;  
+                        "
+                        >
+                        <h3>${evento.titulo}</h3>                        
                         <p>${evento.descricao}</p>
-                        <p>${ evento.hora }</p>
+                        <p>${ evento.hora }
+                            <a class="" id="btnModalDelet" event-id="${ evento.id }">
+                                <div class="btn-delet">
+                                    <i class="fa-solid fa-trash"></i>
+                                </div>
+                            </a>
+                        </p>
+
                         </div>`);
                     });
                 },

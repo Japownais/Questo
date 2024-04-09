@@ -10,6 +10,9 @@ from django.utils.html import format_html
 from django.forms.models import model_to_dict
 
 # Create your views here.
+def home(request):
+    return render(request,'home.html')
+
 @login_required
 def profile(request):
     return render(request, 'profile.html')
@@ -50,9 +53,6 @@ def calendar(request):
 
         context = {'form': form, 'datas_eventos': datas_eventos, 'lista_data_evento': lista_data_evento, 'eventos': eventos}
         return render(request, 'calendar.html', context=context)
- 
-def home(request):
-    return render(request,'home.html')
 
 def flashcards(request):
     decks = Deck.objects.filter(usuario=request.user)
