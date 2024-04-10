@@ -5,6 +5,15 @@
         box-sizing: border-box;
     }
 
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #fff;
+        border-radius: 20px;
+    }
+
     #formulario {
         display: none;
     }
@@ -22,19 +31,18 @@
 
     .container {
         width: 1000px;
-        min-height: 650px;
+        min-height: 520px;
         margin: 0 auto;
         padding: 5px;
         display: flex;
-        border-radius: 5px;
+        border-radius: 15px;
         background-color: #5865f2;
     }
 
     .left {
         width: 50%;
-        padding: 20px;
-        margin-left: 10px;
-        margin-right: 10px;
+        height: 100%;
+        padding: 10px;
         display: flex;
         align-items: center;
     }
@@ -63,8 +71,18 @@
         text-transform: capitalize;
     }
 
+    .calendar .month .prev,
+    .calendar .month .next {
+        padding: 7px 10px;
+        background-color: #eee;
+        border: 2px solid #eee;
+        border-radius: 15px;
+    }
+
     .calendar .month .prev:hover,
     .calendar .month .next:hover {
+        background-color: #fff;
+        border: 2px solid #ddd;
         cursor: pointer;
     }
 
@@ -105,28 +123,30 @@
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        border: 1px solid #777;
-        background-color: #f2f2f2;
+        border-radius: 15px;
         transition: background-color 0.3s;
     }
 
     .calendar .days .day:hover:not(.today, .active) {
-        background-color: #fff;
+        border: 1px solid #aaa;
+        border-radius: 15px;
     }
 
     .calendar .days .today {
         background-color: #5865f2;
+        border-radius: 15px;
         position: relative;
     }
 
     .calendar .days .active {
         background-color: #fee75c;
+        border-radius: 15px;
         position: relative;
     }
     
     .calendar .days .inactive {
-        background-color: #dbdbdb;
         cursor: not-allowed;
+        color: #bbb;
     }
 
     .calendar .days .event {
@@ -156,15 +176,16 @@
         background-color: #fee75c;
         /* cor da barra */
         border-radius: 30px;
+        
         /* borda arredondada */
     }
 
     .container .right {
         display:flex;
         position: relative;
-        width: 40%;
+        width: 45%;
         min-height: 70%;
-        padding-top: 2%;
+        padding-top: 2px;
         padding-left: 30px;
     }
 
@@ -192,7 +213,7 @@
     .btn-newform {
         height: 30px;
         width: 30px;
-        margin-left: 350px;
+        margin-left: 90%;
         margin-top: -20px;
         display: flex;
         justify-content: center;
@@ -210,7 +231,7 @@
     .btn-delet {
         height: 30px;
         width: 30px;
-        margin-left: 325px;
+        margin-left: 375px;
         margin-top: -25px;
         display: flex;
         justify-content: center;
@@ -220,7 +241,7 @@
         cursor: pointer;
     }
 
-    .modal {
+    .modal-form {
         display: none;
         position: fixed;
         z-index: 1;
@@ -231,11 +252,33 @@
         overflow: auto;
         transition: opacity 0.3s ease-in-out;
         transform: scale(0.9);
-        /* Escala inicial para simular um "pop" */
-        /* Add transition for smooth fade */
     }
 
-    .modal-content {
+    .modal-delet {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        transition: opacity 0.3s ease-in-out;
+        transform: scale(0.9);
+    }
+
+    .modal-content-form {
+        background-color: #ac6cff;
+        margin: 7% auto;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 21%;
+        animation: modal-in 0.3s ease-in-out;
+        /* Add animation for modal entrance */
+    }
+
+    .modal-content-delet {
         background-color: #ac6cff;
         margin: 7% auto;
         border-radius: 10px;
@@ -281,7 +324,7 @@
         <div class="calendar">
             <div class="month">
                 <i class="fa fa-angle-left prev"></i>
-                <div class="date">Março 2024</div>
+                <div class="date"></div>
                 <i class="fa fa-angle-right next"></i>
             </div>
             <div class="weekdays">
@@ -338,8 +381,8 @@
             </a>
             <div class="event-date" style="margin-right:100px"></div>
 
-            <div id="modalForm" class="modal">
-                <div class="modal-content">
+            <div id="modalForm" class="modal-form">
+                <div class="modal-content-form">
                     <span class="fechar">&times;</span>
                     <h2>
                     <form method="post">
@@ -352,7 +395,16 @@
                 </div>
             </div>
 
-            <div id="eventosDaDataSelecionada" style="height:470px; margin-top:8px; margin-right:15px; margin-left:-20px; overflow:auto; overflow-x:hidden;";>
+            <div id="modalDelet" class="modal-delet">
+                <div class="modal-content-delet">
+                    <span class="fechar">&times;</span>
+                    <h2>
+                    
+                    </h2>
+                </div>
+            </div>
+
+            <div id="eventosDaDataSelecionada" style="height:434px; margin-top:8px; margin-right:15px; margin-left:-20px; overflow:auto; overflow-x:hidden;";>
                 {% for evento in eventos %}
                 <div class="evento"></div>
                 {% endfor %}
@@ -474,19 +526,20 @@
                         style=
                         "
                             background-color: #fee75c;
-                            width:374px;
+                            width:428px;
                             word-wrap:break-word;
-                            margin:7px;
-                            padding:7px;
-                            padding-left:10px;  
+                            margin:8px;
+                            padding:8px;
+                            padding-left:10px;
+                            border-radius:8px;
                         "
                         >
-                        <h3>${evento.titulo}</h3>                        
-                        <p>${evento.descricao}</p>
+                        <h3>${ evento.titulo }</h3>                        
+                        <p>${ evento.descricao }</p>
                         <p>${ evento.hora }
-                            <a class="" id="btnModalDelet" event-id="${ evento.id }">
-                                <div class="btn-delet">
-                                    <i class="fa-solid fa-trash"></i>
+                            <a class="" id="btnModalDelet">
+                                <div class="btn-delet" event-id="${ evento.id }" event-title="${ evento.titulo }">
+                                    <i class="fas fa-trash"></i>
                                 </div>
                             </a>
                         </p>
