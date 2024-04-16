@@ -21,11 +21,13 @@ from dashboard import views
 
 
 urlpatterns = [
+    path('',views.home,name="home"),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/flashcards/', views.flashcards, name='flashcards'),
-    path('',views.home,name="home"),
-    path('accounts/calendar/', views.calendar, name='calendar'),
     path('deletar_deck/<int:deck_id>/', views.deletar_deck, name='deletar_deck'),
+    path('accounts/calendar/', views.calendar, name='calendar'),
+    path('accounts/exams/', views.exams, name='exams'),
+    
 ]

@@ -28,3 +28,31 @@ class Evento(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+
+
+    
+class Vestibular(models.Model):
+    nome = models.CharField(max_length=200)
+    def __str__(self):
+        return self.nome
+
+class Prova(models.Model):
+    vestibular = models.ForeignKey(Vestibular, on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=200)
+    ano = models.IntegerField()
+    def __str__(self):
+        return self.titulo
+
+class Caderno(models.Model):
+    prova = models.ForeignKey(Prova, on_delete=models.CASCADE)
+    numero = models.IntegerField()
+    urlProva = models.URLField()
+    def __str__(self):
+        return f"Caderno {self.numero} da prova {self.prova.titulo}"
+
+class Correcao(models.Model):
+    caderno = models.OneToOneField(Caderno, on_delete=models.CASCADE)
+    urlCorrecao = models.URLField()
+    def __str__(self):
+        return f"Correção do caderno {self.caderno.numero} da prova {self.caderno.prova.titulo}"

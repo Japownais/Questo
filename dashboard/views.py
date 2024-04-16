@@ -75,3 +75,7 @@ def deletar_deck(request, deck_id):
         deck.delete()
         return redirect('flashcards')
     return redirect('flashcards')
+
+@login_required
+def exams(request):
+    return render(request, 'exams.html')
