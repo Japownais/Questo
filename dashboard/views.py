@@ -4,7 +4,7 @@ from .forms import DeckForm, EventoForm
 from django.http import HttpResponse, JsonResponse, HttpResponseServerError
 from .models import Evento, Deck
 from django.views.decorators.csrf import csrf_exempt
-from datetime import date, datetime
+from datetime import date, datetime, time
 import json
 from django.utils.html import format_html
 from django.forms.models import model_to_dict
@@ -33,7 +33,7 @@ def calendar(request):
     else:
         form = EventoForm()
 
-    if request.method == 'POST':
+    if 'dataAtiva' in request.POST:
         data_selecionada = request.POST.get('dataAtiva')
         data_selecionada = datetime.strptime(data_selecionada, '%Y-%m-%d').date()
 
@@ -53,6 +53,68 @@ def calendar(request):
 
         context = {'form': form, 'datas_eventos': datas_eventos, 'lista_data_evento': lista_data_evento, 'eventos': eventos}
         return render(request, 'calendar.html', context=context)
+
+@login_required
+def detalhes_event(request):
+    if request.method == 'GET':
+        evento_id = request.GET.get('eventoId')
+
+        try:
+            evento = Evento.objects.get(id=evento_id, usuario=request.user)
+            # Retornar os detalhes do evento em formato JSON
+            return JsonResponse({'titulo': evento.titulo, 'descricao': evento.descricao, 'hora': evento.hora})  # Adicione outros campos conforme necessário
+        except Evento.DoesNotExist:
+            return JsonResponse({'error': 'Evento não encontrado ou você não tem permissão para acessá-lo.'})
+    return JsonResponse({'error': 'Método de requisição não suportado.'})
+
+def detalhes_event(request):
+    if request.method == 'GET':
+        evento_id = request.GET.get('eventoId')
+        print("Evento ID recebido na view:", evento_id)  # Adiciona um log para depuração
+
+        try:
+            evento = Evento.objects.get(id=evento_id, usuario=request.user)
+            # Retornar os detalhes do evento em formato JSON
+            return JsonResponse({'titulo': evento.titulo, 'descricao': evento.descricao, 'hora': evento.hora, 'data': evento.data})  # Adicione outros campos conforme necessário
+        except Evento.DoesNotExist:
+            return JsonResponse({'error': 'Evento não encontrado ou você não tem permissão para acessá-lo.'})
+    return JsonResponse({'error': 'Método de requisição não suportado.'})
+
+@login_required
+@csrf_exempt
+def edit_event(request):
+    if request.method == 'POST':
+        evento_id = request.POST.get('eventoId')
+        novo_titulo = request.POST.get('novoTitulo')
+        nova_descricao = request.POST.get('novaDescricao')
+        nova_hora = datetime.strptime(request.POST.get('novaHora'), "%H:%M:%S").time()
+        nova_data = datetime.strptime(request.POST.get('novaData'), "%Y-%m-%d").date()
+
+        try:
+            evento = Evento.objects.get(id=evento_id, usuario=request.user)
+            evento.titulo = novo_titulo
+            evento.descricao = nova_descricao
+            evento.hora = nova_hora
+            evento.data = nova_data
+            evento.save()
+            
+            return JsonResponse({'status': 'success', 'message': 'Evento editado com sucesso!'})
+        except Evento.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Evento não encontrado ou você não tem permissão para editá-lo.'})
+    return JsonResponse({'status': 'error', 'message': 'Método de requisição não suportado.'})
+
+@login_required
+@csrf_exempt
+def delete_event(request):
+    if request.method == 'POST':
+        evento_id = request.POST.get('eventoId')
+        try:
+            evento = Evento.objects.get(id=evento_id, usuario=request.user)
+            evento.delete()
+            return JsonResponse({'status': 'success', 'message': 'Evento excluído com sucesso!'})
+        except Evento.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Evento não encontrado ou você não tem permissão para excluí-lo.'})
+    return JsonResponse({'status': 'error', 'message': 'Método de requisição não suportado.'})
 
 def flashcards(request):
     decks = Deck.objects.filter(usuario=request.user)

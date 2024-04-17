@@ -26,10 +26,12 @@ class EventoForm(forms.ModelForm):
         model = Evento
         fields = ['titulo', 'descricao', 'hora']
         labels = {
-            'titulo': 'Título do Evento',
-            'descricao': 'Descrição do Evento',
-            'hora': 'Hora do Evento',
+            'titulo': 'Título',
+            'descricao': 'Descrição',
+            'hora': 'Hora',
         }
         widgets = {
-            'hora': forms.TimeInput(format='%H:%M', attrs={'type': 'time'}),
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 8}),
+            'hora': forms.TimeInput(format='%H:%M', attrs={'type': 'time', 'class': 'form-control'}),
         }

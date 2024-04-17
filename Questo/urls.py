@@ -28,6 +28,9 @@ urlpatterns = [
     path('accounts/flashcards/', views.flashcards, name='flashcards'),
     path('deletar_deck/<int:deck_id>/', views.deletar_deck, name='deletar_deck'),
     path('accounts/calendar/', views.calendar, name='calendar'),
+    path('detalhes_event/', views.detalhes_event, name='detalhes_event'),
+    path('edit_event/', views.edit_event, name='edit_event'),
+    path('delete_event/', views.delete_event, name='delete_event'),
     path('accounts/exams/', views.exams, name='exams'),
     
 ]

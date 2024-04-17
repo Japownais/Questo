@@ -22,6 +22,10 @@
         resize: none;
     }
 
+    h3 {
+        font-weight: 300;
+    }
+
     .main {
         display: flex;
         height: 95vh;
@@ -33,10 +37,10 @@
         width: 1000px;
         min-height: 520px;
         margin: 0 auto;
-        padding: 5px;
+        padding: 25px;
         display: flex;
         border-radius: 15px;
-        background-color: #5865f2;
+        background-color: #d9d9d9;
     }
 
     .left {
@@ -133,13 +137,14 @@
     }
 
     .calendar .days .today {
-        background-color: #5865f2;
+        background-color: #ae81d6;
         border-radius: 15px;
         position: relative;
     }
 
     .calendar .days .active {
-        background-color: #fee75c;
+        background-color: #6a0dad;
+        color: #fff;
         border-radius: 15px;
         position: relative;
     }
@@ -173,7 +178,7 @@
         /* largura da barra */
         height: 6px;
         /* altura da barra */
-        background-color: #fee75c;
+        background-color: #6a0dad;
         /* cor da barra */
         border-radius: 30px;
         
@@ -194,54 +199,110 @@
         width: 100%;
         height: 100px;
         flex-wrap: wrap;
-        text-transform: capitalize;
         align-items: center;
     }
 
     .today-date .event-day {
         font-size: 2rem;
         font-weight: 500;
-        margin-right:200px
+        margin-right:200px;
+        color: #2f1c48;
     }
 
     .today-date .event-date {
         font-size: 1.2rem;
         font-weight: 400;
-        color: #fee75c;
+        color: #2f1c48;
+    }
+
+    .btn-save {
+        height: 30px;
+        width: 65px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #7ebd53;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .btn-save:hover {
+        background-color: #f0f0f0; /* Mudando a cor de fundo quando o mouse passa sobre o botão */
+        color: #000;
     }
 
     .btn-newform {
-        height: 30px;
-        width: 30px;
+        height: 40px;
+        width: 40px;
         margin-left: 90%;
         margin-top: -20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #57f287;
-        border-radius: 5px;
+        background-color: #7ebd53;
+        color: #fff;
+        border-radius: 15px;
         position: absolute;
         cursor: pointer;
+        font-size: 25px;
     }
 
     .btn-newform:hover {
         background-color: #f0f0f0; /* Mudando a cor de fundo quando o mouse passa sobre o botão */
+        color: #000;
+    }
+
+    .btn-edit {
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #5e81ac;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-edit:hover {
+        background-color: #f0f0f0; /* Mudando a cor de fundo quando o mouse passa sobre o botão */
+        color: #000;
     }
 
     .btn-delet {
         height: 30px;
         width: 30px;
-        margin-left: 375px;
-        margin-top: -25px;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #ed4245;
+        background-color: #b0413e;
+        color: #fff;
         border-radius: 5px;
         cursor: pointer;
     }
 
+    .btn-delet:hover {
+        background-color: #f0f0f0; /* Mudando a cor de fundo quando o mouse passa sobre o botão */
+        color: #000;
+    }
+
     .modal-form {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        transition: opacity 0.3s ease-in-out;
+        transform: scale(0.9);
+    }
+
+    .modal-edit {
         display: none;
         position: fixed;
         z-index: 1;
@@ -268,7 +329,20 @@
     }
 
     .modal-content-form {
-        background-color: #ac6cff;
+        background-color: #28232d;
+        color: #fff;
+        margin: 7% auto;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 21%;
+        animation: modal-in 0.3s ease-in-out;
+        /* Add animation for modal entrance */
+    }
+
+    .modal-content-edit {
+        background-color: #28232d;
+        color: #fff;
         margin: 7% auto;
         border-radius: 10px;
         padding: 20px;
@@ -279,7 +353,8 @@
     }
 
     .modal-content-delet {
-        background-color: #ac6cff;
+        background-color: #28232d;
+        color: #fff;
         margin: 7% auto;
         border-radius: 10px;
         padding: 20px;
@@ -287,6 +362,13 @@
         width: 21%;
         animation: modal-in 0.3s ease-in-out;
         /* Add animation for modal entrance */
+    }
+
+    .form-control {
+        width: 100%;
+        border: 1px solid #ced4da;
+        border-radius: 10px;
+        box-sizing: border-box;
     }
 
     @keyframes modal-in {
@@ -303,7 +385,7 @@
 
     /* Close button styles */
     .fechar {
-        color: black;
+        color: #fff;
         float: right;
         font-size: 28px;
         font-weight: bold;
@@ -312,7 +394,7 @@
 
     .fechar:hover,
     .fechar:focus {
-        color: black;
+        color: #aaa;
         text-decoration: none;
         cursor: pointer;
     }
@@ -373,6 +455,7 @@
     </div>
     <div class="right">
         <div class="today-date">
+
             <div class="event-day"></div>
             <a class="" id="btnModalForm">
                 <div class="btn-newform">
@@ -381,30 +464,65 @@
             </a>
             <div class="event-date" style="margin-right:100px"></div>
 
+            <!-- Modal de Adição -->
             <div id="modalForm" class="modal-form">
                 <div class="modal-content-form">
                     <span class="fechar">&times;</span>
-                    <h2>
+                    <h3>
                     <form method="post">
+                        <h2>Lembrete</h2>
                         {% csrf_token %}
                         {{ form }}
+                        <br>
                         <input type="hidden" name="data" id="dataSelecionada">
-                        <input type="submit" value="Salvar">
+                        <a type="submit" value="Salvar" style="display: flex; justify-content: center;">
+                            <input class="btn-save" type="submit" value="Salvar">
+                        </a>
                     </form>
-                    </h2>
+                    </h3>
                 </div>
             </div>
 
+            <!-- Modal de Edição -->
+            <div id="modalEdit" class="modal-edit">
+                <div class="modal-content-edit">
+                    <span class="fechar">&times;</span>
+                    <h2>Editar Evento</h2>
+                    <form id="formEditEvento">
+                        <label for="modalEditTitulo">Título:</label>
+                        <input class="form-control" type="text" id="modalEditTitulo" name="novoTitulo"><br>
+                        
+                        <label for="modalEditDescricao">Descrição:</label>
+                        <textarea class="form-control" id="modalEditDescricao" name="novaDescricao" rows="8"></textarea><br>
+                        
+                        <label for="modalEditHora">Hora:</label>
+                        <input class="form-control" type="time" id="modalEditHora" name="novaHora"><br>
+                        
+                        <input class="form-control" type="hidden" id="modalEditData" name="novaData"><br>
+                        
+                        <a type="button" value="Salvar" id="btnSalvarEdit" style="display: flex; justify-content: center;">
+                            <input class="btn-save" type="submit" value="Salvar">
+                        </a>
+
+                    </form>
+                </div>
+            </div>
+
+            <!-- Modal de Exclusão -->
             <div id="modalDelet" class="modal-delet">
                 <div class="modal-content-delet">
                     <span class="fechar">&times;</span>
-                    <h2>
-                    
-                    </h2>
+                    <h2>Confirmar Exclusão</h2>
+                    <p>Você tem certeza de que deseja excluir este evento?</p>
+                    <form id="formExcluirEvento" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" id="eventoId" name="eventoId"> <!-- Adicione o campo eventoIdExcluir oculto -->
+                        <button type="submit">Confirmar</button>
+                    </form>
                 </div>
             </div>
 
-            <div id="eventosDaDataSelecionada" style="height:434px; margin-top:8px; margin-right:15px; margin-left:-20px; overflow:auto; overflow-x:hidden;";>
+            <div id="eventosDaDataSelecionada" style="height:434px; margin-top:8px; margin-right:5px; margin-left:-20px; overflow:auto; overflow-x:hidden;";>
                 {% for evento in eventos %}
                 <div class="evento"></div>
                 {% endfor %}
@@ -413,24 +531,6 @@
     </div>
 </div>
 <script>
-    var btnModalForm = document.getElementById("btnModalForm");
-    var modalForm = document.getElementById("modalForm");
-    var fecharBtn = document.getElementsByClassName("fechar")[0];
-
-    btnModalForm.onclick = function () {
-        modalForm.style.display = "block";
-    }
-
-    fecharBtn.onclick = function () {
-        modalForm.style.display = "none";
-    }
-
-    window.onclick = function (event) {
-        if (event.target == modalForm) {
-            modalForm.style.display = "none";
-        }
-    }
-
     document.addEventListener("DOMContentLoaded", function () {
 
         const prevBtn = document.querySelector('.prev');
@@ -503,6 +603,8 @@
             eventDateElement.textContent = `${selectedDate} de ${selectedMonth} de ${selectedYear}`;
         }
 
+        var eventIdToUpdate;
+
         function getSelectedDate(selectedDate, selectedMonth, selectedYear) {
             const monthNumber = monthNames.indexOf(selectedMonth) + 1;
             const formattedDate = `${selectedYear}-${monthNumber.toString().padStart(2, '0')}-${selectedDate.padStart(2, '0')}`;
@@ -523,28 +625,104 @@
                     response.eventos.forEach(function(evento) {
                         $('#eventosDaDataSelecionada').append(`
                         <div class="evento"
-                        style=
-                        "
-                            background-color: #fee75c;
-                            width:428px;
-                            word-wrap:break-word;
-                            margin:8px;
-                            padding:8px;
-                            padding-left:10px;
-                            border-radius:8px;
-                        "
+                            style=
+                            "
+                                background-color: #6a0dad;
+                                color: #fff;
+                                width:420px;
+                                word-wrap:break-word;
+                                margin:8px;
+                                padding:8px;
+                                padding-left:10px;
+                                border-radius:8px;
+                            "
                         >
-                        <h3>${ evento.titulo }</h3>                        
-                        <p>${ evento.descricao }</p>
-                        <p>${ evento.hora }
-                            <a class="" id="btnModalDelet">
-                                <div class="btn-delet" event-id="${ evento.id }" event-title="${ evento.titulo }">
-                                    <i class="fas fa-trash"></i>
+                            <h3>${ evento.titulo }</h3>                        
+                            <p>${ evento.descricao }</p>
+                            <p>${ evento.hora }</p>
+                                <div style="margin-left: 83%; margin-top: -25px;">
+                                    <a class="btnModalEdit" evento-id="${evento.id}">
+                                        <div class="btn-edit">
+                                            <i class="fas fa-pen"></i>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </p>
-
+                                <div style="margin-left: 92.5%; margin-top: -30px;">
+                                    <a class="btnModalDelet" evento-id="${evento.id}">
+                                        <div class="btn-delet">
+                                            <i class="fas fa-trash"></i>
+                                        </div>
+                                    </a>
+                                </div>
                         </div>`);
+                        $(".btnModalEdit").click(function() {
+                            var eventoId = $(this).attr('evento-id');
+                            eventIdToUpdate = eventoId;
+                        
+                            $('#modalEdit #eventoId').val(eventoId);                            
+                            $('#btnSalvarEdit').attr('data-evento-id', eventoId);
+                            
+                            $.ajax({
+                                type: "GET",
+                                url: "{% url 'detalhes_event' %}",
+                                data: {
+                                    'eventoId': eventoId,
+                                },
+                                success: function (response) {
+                                    $('#modalEditTitulo').val(response.titulo);
+                                    $('#modalEditDescricao').val(response.descricao);
+                                    $('#modalEditHora').val(response.hora);
+                                    $('#modalEditData').val(response.data);
+                                    
+                                    $('#modalEdit').css('display', 'block');
+                                },
+                                error: function (error) {
+                                    console.error("Erro ao obter detalhes do evento:", error);
+                                }
+                            });
+                        });
+                    
+                        $("#btnSalvarEdit").click(function() {
+                            var eventoId = eventIdToUpdate;
+                            var novoTitulo = $('#modalEditTitulo').val();
+                            var novaDescricao = $('#modalEditDescricao').val();
+                            var novaHora = $('#modalEditHora').val();
+                            var novaData = $('#modalEditData').val();
+
+                                $.ajax({
+                                type: "POST",
+                                url: "{% url 'edit_event' %}",
+                                data: {
+                                    'eventoId': eventoId,  // Usar o eventoId capturado anteriormente
+                                    'novoTitulo': novoTitulo,
+                                    'novaDescricao': novaDescricao,
+                                    'novaHora': novaHora,
+                                    'novaData': novaData,
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                                },
+                                success: function (response) {
+                                    $('#modalEdit').css('display', 'none');
+                                    location.reload();
+                                },
+                                error: function (error) {
+                                    console.error("Erro ao editar evento:", error);
+                                }
+                            });
+                        });
+                        $(".btnModalDelet").click(function() {
+                            var eventoId = $(this).attr('evento-id');
+                            $.ajax({
+                                type: "POST",
+                                url: "{% url 'delete_event' %}",  
+                                data: {
+                                    'eventoId': eventoId,
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}'  
+                                },
+                                error: function (error) {
+                                    console.error("Erro ao enviar dado para Django:", error);
+                                }
+                            });
+                        });
                     });
                 },
                 error: function (error) {
@@ -552,6 +730,99 @@
                 }
             });
         }
+
+        
+
+        var btnModalForm = document.getElementById("btnModalForm");
+        var modalForm = document.getElementById("modalForm");
+        btnModalForm.onclick = function () {
+            modalForm.style.display = "block";
+        }        
+
+        var fecharBtn = document.getElementsByClassName("fechar")[0]; 
+        fecharBtn.onclick = function () {
+            modalForm.style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modalForm) {
+                modalForm.style.display = "none";
+            }
+        }
+
+        function openEditModal(eventoId) {
+            // Exibe o modal de edição
+            $("#modalEdit").css("display", "block");
+            // Define o eventoId no input hidden do formulário de edição
+        }
+        
+        // Função para fechar o modal de edição
+        function closeEditModal() {
+            // Oculta o modal de edição
+            $("#modalEdit").css("display", "none");
+        }
+        
+        // Função para abrir o modal de exclusão
+        function openDeleteModal(eventoId) {
+            // Exibe o modal de exclusão
+            $("#modalDelet").css("display", "block");
+            // Define o eventoId no input hidden do formulário de exclusão
+            $("#eventoId").val(eventoId);
+        }
+        
+        // Função para fechar o modal de exclusão
+        function closeDeleteModal() {
+            // Oculta o modal de exclusão
+            $("#modalDelet").css("display", "none");
+        }        
+        
+        // Adiciona evento de clique ao botão de edição
+        $(document).on('click', '.btn-edit', function() {
+            // Obtém o eventoId associado ao botão de edição
+            var eventoId = $(this).closest('.evento').data('evento-id');
+            // Abre o modal de edição com o eventoId
+            openEditModal(eventoId);
+        });
+        
+        // Adiciona evento de clique ao botão de exclusão
+        $(document).on('click', '.btn-delet', function() {
+            // Obtém o eventoId associado ao botão de exclusão
+            var eventoId = $(this).closest('.evento').data('evento-id');
+            // Abre o modal de exclusão com o eventoId
+            openDeleteModal(eventoId);
+        });
+        
+        // Adiciona evento de clique ao botão de fechar dos modais
+        $(document).on('click', '.fechar', function() {
+            // Fecha ambos os modais de edição e exclusão
+            closeEditModal();
+            closeDeleteModal();
+        });
+        
+        // Adiciona evento de clique ao fundo dos modais para fechá-los
+        $(document).on('click', '.modal-edit, .modal-delet', function(event) {
+            if ($(event.target).hasClass('modal-content-edit') || $(event.target).hasClass('modal-content-delet')) {
+                closeEditModal();
+                closeDeleteModal();
+            }
+        });
+
+        // Adiciona evento de clique ao botão de edição
+        $(document).on('click', '.btnModalEdit', function() {
+            // Obtém o evento-id associado ao botão de edição
+            var eventoId = $(this).attr('evento-id');
+            // Atualiza o valor do campo oculto no formulário de edição no modal de edição
+            $('#modalEdit #eventoId').val(eventoId);
+        });
+
+        // Adiciona evento de clique ao botão de exclusão
+        $(document).on('click', '.btnModalDelet', function() {
+            // Obtém o evento-id associado ao botão de exclusão
+            var eventoId = $(this).attr('evento-id');
+            // Atualiza o valor do campo oculto no formulário de exclusão no modal de exclusão
+            $('#modalDelet #eventoId').val(eventoId);
+        });
+        
 
         function renderCalendar(month, year) {
             const firstDay = new Date(year, month).getDay();
@@ -626,6 +897,8 @@
             });
         }
     });
+
+    
 
 </script>
 
