@@ -517,7 +517,12 @@
                     <form id="formExcluirEvento" method="POST">
                         {% csrf_token %}
                         <input type="hidden" id="eventoId" name="eventoId"> <!-- Adicione o campo eventoIdExcluir oculto -->
-                        <button type="submit">Confirmar</button>
+
+                        <br>
+                        <a type="submit" value="Salvar" style="display: flex; justify-content: center;">
+                            <input class="btn-save" type="submit" value="Confirmar" id="btnDelet" style="width: 100px; background-color: #b0413e;">
+                        </a>
+
                     </form>
                 </div>
             </div>
@@ -712,17 +717,17 @@
                             });
                         });
                         
-                        $(".btnModalDelet").click(function() {
-                            var eventoId = $(this).attr('evento-id');
+                        $("#btnDelet").click(function() {
+                            var eventoId = $('#eventoId').val();
                             $.ajax({
                                 type: "POST",
-                                url: "{% url 'delete_event' %}",  
+                                url: "{% url 'delete_event' %}",
                                 data: {
                                     'eventoId': eventoId,
-                                    'csrfmiddlewaretoken': '{{ csrf_token }}'  
+                                    'csrfmiddlewaretoken': '{{ csrf_token }}'
                                 },
-                                error: function (error) {
-                                    console.error("Erro ao enviar dado para Django:", error);
+                                error: function(error) {
+                                    console.error("Erro ao excluir o evento:", error);
                                 }
                             });
                         });
