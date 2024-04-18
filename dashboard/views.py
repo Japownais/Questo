@@ -70,11 +70,9 @@ def detalhes_event(request):
 def detalhes_event(request):
     if request.method == 'GET':
         evento_id = request.GET.get('eventoId')
-        print("Evento ID recebido na view:", evento_id)  # Adiciona um log para depuração
 
         try:
             evento = Evento.objects.get(id=evento_id, usuario=request.user)
-            # Retornar os detalhes do evento em formato JSON
             return JsonResponse({'titulo': evento.titulo, 'descricao': evento.descricao, 'hora': evento.hora, 'data': evento.data})  # Adicione outros campos conforme necessário
         except Evento.DoesNotExist:
             return JsonResponse({'error': 'Evento não encontrado ou você não tem permissão para acessá-lo.'})
@@ -87,7 +85,7 @@ def edit_event(request):
         evento_id = request.POST.get('eventoId')
         novo_titulo = request.POST.get('novoTitulo')
         nova_descricao = request.POST.get('novaDescricao')
-        nova_hora = datetime.strptime(request.POST.get('novaHora'), "%H:%M:%S").time()
+        nova_hora = datetime.strptime(request.POST.get('novaHora'), "%H:%M").time()
         nova_data = datetime.strptime(request.POST.get('novaData'), "%Y-%m-%d").date()
 
         try:
@@ -96,7 +94,7 @@ def edit_event(request):
             evento.descricao = nova_descricao
             evento.hora = nova_hora
             evento.data = nova_data
-            evento.save()
+            evento.save(update_fields=['titulo', 'descricao', 'hora', 'data'])
             
             return JsonResponse({'status': 'success', 'message': 'Evento editado com sucesso!'})
         except Evento.DoesNotExist:

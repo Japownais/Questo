@@ -500,8 +500,8 @@
                         
                         <input class="form-control" type="hidden" id="modalEditData" name="novaData"><br>
                         
-                        <a type="button" value="Salvar" id="btnSalvarEdit" style="display: flex; justify-content: center;">
-                            <input class="btn-save" type="submit" value="Salvar">
+                        <a type="submit" value="Salvar" style="display: flex; justify-content: center;">
+                            <input class="btn-save" type="submit" value="Salvar" id="btnSalvarEdit" >
                         </a>
 
                     </form>
@@ -688,12 +688,14 @@
                             var novaDescricao = $('#modalEditDescricao').val();
                             var novaHora = $('#modalEditHora').val();
                             var novaData = $('#modalEditData').val();
-
-                                $.ajax({
+                        
+                            novaHora = novaHora.split(':').slice(0, 2).join(':');
+                        
+                            $.ajax({
                                 type: "POST",
                                 url: "{% url 'edit_event' %}",
                                 data: {
-                                    'eventoId': eventoId,  // Usar o eventoId capturado anteriormente
+                                    'eventoId': eventoId,
                                     'novoTitulo': novoTitulo,
                                     'novaDescricao': novaDescricao,
                                     'novaHora': novaHora,
@@ -705,10 +707,11 @@
                                     location.reload();
                                 },
                                 error: function (error) {
-                                    console.error("Erro ao editar evento:", error);
+                                    console.error("Erro ao editar evento:", error.responseText);
                                 }
                             });
                         });
+                        
                         $(".btnModalDelet").click(function() {
                             var eventoId = $(this).attr('evento-id');
                             $.ajax({
@@ -731,7 +734,13 @@
             });
         }
 
-        
+        function verificarEnter(event) {
+            // Verifica se a tecla pressionada é Enter (código 13)
+            if (event.keyCode === 13) {
+                // Aciona o clique no botão
+                document.getElementsByClassName("btn-save").click();
+            }
+        }
 
         var btnModalForm = document.getElementById("btnModalForm");
         var modalForm = document.getElementById("modalForm");
@@ -800,12 +809,13 @@
         });
         
         // Adiciona evento de clique ao fundo dos modais para fechá-los
-        $(document).on('click', '.modal-edit, .modal-delet', function(event) {
-            if ($(event.target).hasClass('modal-content-edit') || $(event.target).hasClass('modal-content-delet')) {
+        $(document).on('click', function(event) {
+            if ($(event.target).hasClass('modal-edit') || $(event.target).hasClass('modal-delet')) {
                 closeEditModal();
                 closeDeleteModal();
             }
         });
+        
 
         // Adiciona evento de clique ao botão de edição
         $(document).on('click', '.btnModalEdit', function() {
